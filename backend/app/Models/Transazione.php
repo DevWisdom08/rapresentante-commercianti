@@ -154,7 +154,7 @@ class Transazione extends Model
     /**
      * Accessor: Formatta importo euro
      */
-    public function getImportoFormattato Attribute(): ?string
+    public function getImportoFormattatoAttribute(): ?string
     {
         if (!$this->importo_euro) {
             return null;
