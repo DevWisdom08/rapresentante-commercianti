@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Tymon\JWTAuth\Facades\JWTAuth;
+// use Tymon\JWTAuth\Facades\JWTAuth;
 
 /**
  * Controller per gestione autenticazione e registrazione utenti
@@ -138,8 +138,8 @@ class AuthController extends Controller
             'otp_expires_at' => null
         ]);
 
-        // Genera token JWT
-        $token = JWTAuth::fromUser($user);
+        // Genera token semplice (MVP)
+        $token = base64_encode($user->id . '|' . $user->email . '|' . time());
 
         // Carica wallet se esiste
         $userData = $user->toArray();
@@ -150,7 +150,7 @@ class AuthController extends Controller
         return $this->successResponse([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => config('jwt.ttl') * 60,
+            'expires_in' => 86400,
             'user' => $userData
         ], 'Email verificata con successo');
     }
@@ -191,13 +191,13 @@ class AuthController extends Controller
         // Aggiorna ultimo accesso
         $user->update(['ultimo_accesso' => now()]);
 
-        // Genera token
-        $token = JWTAuth::fromUser($user);
+        // Genera token semplice (MVP)
+        $token = base64_encode($user->id . '|' . $user->email . '|' . time());
 
         return $this->successResponse([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => config('jwt.ttl') * 60,
+            'expires_in' => 86400,
             'user' => [
                 'id' => $user->id,
                 'email' => $user->email,
@@ -216,12 +216,8 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        try {
-            JWTAuth::invalidate(JWTAuth::getToken());
-            return $this->successResponse(null, 'Logout effettuato con successo');
-        } catch (\Exception $e) {
-            return $this->errorResponse('Errore durante il logout', 'LOGOUT_ERROR', null, 500);
-        }
+        // Per MVP, semplicemente conferma logout
+        return $this->successResponse(null, 'Logout effettuato con successo');
     }
 
     /**
