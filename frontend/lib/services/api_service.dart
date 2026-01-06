@@ -137,10 +137,6 @@ class ApiService {
 
   /// Gestione errori
   Map<String, dynamic> _handleError(dynamic error) {
-    if (error is ApiException) {
-      throw error;
-    }
-
     // Errori di rete o timeout
     throw ApiException(
       statusCode: 0,
