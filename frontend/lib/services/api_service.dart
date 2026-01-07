@@ -95,8 +95,14 @@ class ApiService {
           .timeout(Duration(seconds: ApiConfig.timeout));
 
       return _handleResponse(response);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      return _handleError(e);
+      throw ApiException(
+        statusCode: 0,
+        message: 'Errore di connessione. Verifica la tua connessione internet.',
+        errorCode: 'NETWORK_ERROR',
+      );
     }
   }
 
@@ -114,8 +120,14 @@ class ApiService {
           .timeout(Duration(seconds: ApiConfig.timeout));
 
       return _handleResponse(response);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      return _handleError(e);
+      throw ApiException(
+        statusCode: 0,
+        message: 'Errore di connessione. Verifica la tua connessione internet.',
+        errorCode: 'NETWORK_ERROR',
+      );
     }
   }
 
