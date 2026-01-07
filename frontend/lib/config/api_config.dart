@@ -1,19 +1,15 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 /// Configurazione API endpoints
 class ApiConfig {
   // ==========================================
-  // IMPORTANTE: Modifica questo URL quando fai il deploy!
+  // IMPORTANTE: Auto-detect platform
   // ==========================================
   
   /// Base URL backend API
-  /// 
-  /// SVILUPPO LOCALE:
-  /// - Android Emulator: 'http://10.0.2.2:8000/api/v1'
-  /// - iOS Simulator: 'http://localhost:8000/api/v1'
-  /// - Browser: 'http://localhost:8000/api/v1'
-  /// 
-  /// PRODUZIONE:
-  /// - 'https://tuo-server.com/api/v1'
-  static const String baseUrl = 'http://localhost:8000/api/v1';
+  static String get baseUrl => kIsWeb 
+      ? 'http://localhost:8000/api/v1'          // Web browser
+      : 'http://10.0.2.2:8000/api/v1';          // Android/iOS emulator
 
   /// Timeout richieste HTTP (secondi)
   static const int timeout = 30;

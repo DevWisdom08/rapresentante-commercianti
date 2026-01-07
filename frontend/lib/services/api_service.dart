@@ -27,7 +27,7 @@ class ApiService {
   Future<Map<String, dynamic>> get(String endpoint,
       {bool requiresAuth = true}) async {
     try {
-      final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint');
+      final uri = Uri.parse(ApiConfig.baseUrl + endpoint);
       final headers = requiresAuth
           ? await _headersWithAuth()
           : ApiConfig.headers;
@@ -46,7 +46,7 @@ class ApiService {
   Future<Map<String, dynamic>> post(String endpoint,
       {Map<String, dynamic>? body, bool requiresAuth = true}) async {
     try {
-      final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint');
+      final uri = Uri.parse(ApiConfig.baseUrl + endpoint);
       final headers = requiresAuth
           ? await _headersWithAuth()
           : ApiConfig.headers;
@@ -69,7 +69,7 @@ class ApiService {
   Future<Map<String, dynamic>> put(String endpoint,
       {Map<String, dynamic>? body, bool requiresAuth = true}) async {
     try {
-      final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint');
+      final uri = Uri.parse(ApiConfig.baseUrl + endpoint);
       final headers = requiresAuth
           ? await _headersWithAuth()
           : ApiConfig.headers;
@@ -92,7 +92,7 @@ class ApiService {
   Future<Map<String, dynamic>> delete(String endpoint,
       {bool requiresAuth = true}) async {
     try {
-      final uri = Uri.parse('${ApiConfig.baseUrl}$endpoint');
+      final uri = Uri.parse(ApiConfig.baseUrl + endpoint);
       final headers = requiresAuth
           ? await _headersWithAuth()
           : ApiConfig.headers;
