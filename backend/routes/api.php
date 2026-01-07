@@ -43,7 +43,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/reinvia-otp', [AuthController::class, 'reinviaOtp']);
         
         // Routes autenticate
-        Route::middleware('auth:api')->group(function () {
+        Route::middleware('auth.simple')->group(function () {
             Route::post('/logout', [AuthController::class, 'logout']);
             Route::get('/profilo', [AuthController::class, 'profilo']);
         });
@@ -54,7 +54,7 @@ Route::prefix('v1')->group(function () {
     | WALLET (Cliente e Esercente)
     |--------------------------------------------------------------------------
     */
-    Route::middleware('auth:api')->prefix('wallet')->group(function () {
+    Route::middleware('auth.simple')->prefix('wallet')->group(function () {
         Route::get('/', [WalletController::class, 'getWallet']);
         Route::get('/transazioni', [WalletController::class, 'getTransazioni']);
         Route::get('/transazioni/{id}', [WalletController::class, 'getTransazione']);
@@ -70,7 +70,7 @@ Route::prefix('v1')->group(function () {
     | ESERCENTE
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['auth:api', 'role:esercente'])->prefix('esercente')->group(function () {
+    Route::middleware(['auth.simple', 'role:esercente'])->prefix('esercente')->group(function () {
         Route::post('/assegna-punti', [EsercenteController::class, 'assegnaPunti']);
         Route::post('/accetta-punti', [EsercenteController::class, 'accettaPunti']);
         Route::get('/dashboard', [EsercenteController::class, 'dashboard']);
@@ -78,14 +78,14 @@ Route::prefix('v1')->group(function () {
     });
 
     // Lista esercenti (accessibile a clienti e esercenti)
-    Route::middleware(['auth:api', 'role:cliente,esercente'])->get('/esercente/lista-zona', [EsercenteController::class, 'listaZona']);
+    Route::middleware(['auth.simple', 'role:cliente,esercente'])->get('/esercente/lista-zona', [EsercenteController::class, 'listaZona']);
 
     /*
     |--------------------------------------------------------------------------
     | RAPPRESENTANTE
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['auth:api', 'role:rappresentante'])->prefix('rappresentante')->group(function () {
+    Route::middleware(['auth.simple', 'role:rappresentante'])->prefix('rappresentante')->group(function () {
         Route::get('/dashboard', [RappresentanteController::class, 'dashboard']);
         Route::get('/esercenti', [RappresentanteController::class, 'getEsercenti']);
         
@@ -102,7 +102,7 @@ Route::prefix('v1')->group(function () {
     | EVENTI (Pubblici per clienti)
     |--------------------------------------------------------------------------
     */
-    Route::middleware('auth:api')->prefix('eventi')->group(function () {
+    Route::middleware('auth.simple')->prefix('eventi')->group(function () {
         // Lista eventi attivi (tutti possono vedere)
         Route::get('/', function(Request $request) {
             $eventi = \App\Models\Evento::attivi()
@@ -203,7 +203,7 @@ Route::prefix('v1')->group(function () {
     | CENTRALE (Admin)
     |--------------------------------------------------------------------------
     */
-    Route::middleware(['auth:api', 'role:centrale'])->prefix('centrale')->group(function () {
+    Route::middleware(['auth.simple', 'role:centrale'])->prefix('centrale')->group(function () {
         Route::get('/dashboard', [CentraleController::class, 'dashboard']);
         Route::get('/report', [CentraleController::class, 'getReport']);
         
