@@ -5,6 +5,7 @@ import '../../providers/wallet_provider.dart';
 import '../../config/theme.dart';
 import 'storico_transazioni_screen.dart';
 import 'lista_esercenti_screen.dart';
+import 'qr_code_screen.dart';
 
 /// Home Cliente con wallet e funzionalità base
 class HomeCliente extends StatefulWidget {
@@ -65,6 +66,18 @@ class _HomeClienteState extends State<HomeCliente> {
       appBar: AppBar(
         title: const Text('Il Mio Wallet'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.qr_code),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const QrCodeScreen(),
+                ),
+              );
+            },
+            tooltip: 'Il Mio QR Code',
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: _handleLogout,

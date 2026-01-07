@@ -4,6 +4,7 @@ import 'dart:convert';
 import '../../config/api_config.dart';
 import '../../config/theme.dart';
 import '../../services/api_service.dart';
+import 'scanner_qr_screen.dart';
 
 /// Schermata Assegnazione Punti a Cliente
 class AssegnaPuntiScreen extends StatefulWidget {
@@ -118,24 +119,47 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
               const SizedBox(height: AppTheme.spacingXl),
 
               // Email cliente
-              TextFormField(
-                controller: _emailClienteController,
-                keyboardType: TextInputType.emailAddress,
-                textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(
-                  labelText: 'Email Cliente',
-                  hintText: 'mario.rossi@test.it',
-                  prefixIcon: Icon(Icons.person),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Inserisci email del cliente';
-                  }
-                  if (!value.contains('@')) {
-                    return 'Email non valida';
-                  }
-                  return null;
-                },
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: _emailClienteController,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      decoration: const InputDecoration(
+                        labelText: 'Email Cliente',
+                        hintText: 'mario.rossi@test.it',
+                        prefixIcon: Icon(Icons.person),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Inserisci email del cliente';
+                        }
+                        if (!value.contains('@')) {
+                          return 'Email non valida';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: AppTheme.spacingM),
+                  IconButton.filled(
+                    icon: const Icon(Icons.qr_code_scanner),
+                    onPressed: () async {
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ScannerQRScreen(),
+                        ),
+                      );
+                      
+                      if (result != null && result is Map) {
+                        _emailClienteController.text = result['cliente_email'] ?? '';
+                      }
+                    },
+                    tooltip: 'Scansiona QR',
+                  ),
+                ],
               ),
               const SizedBox(height: AppTheme.spacingM),
 

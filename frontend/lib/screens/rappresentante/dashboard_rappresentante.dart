@@ -44,6 +44,34 @@ class _DashboardRappresentanteState extends State<DashboardRappresentante> {
     }
   }
 
+  Future<void> _exportCSV() async {
+    try {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Download CSV in corso...'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // In produzione, questo scaricherebbe il file CSV
+      // Per MVP, mostriamo success message
+      await Future.delayed(const Duration(seconds: 1));
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Report CSV generato! (Funzione demo)'),
+          backgroundColor: AppTheme.success,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
@@ -102,18 +130,51 @@ class _DashboardRappresentanteState extends State<DashboardRappresentante> {
                     const SizedBox(height: AppTheme.spacingM),
 
                     // Azioni
-                    _buildActionCard(
-                      context,
-                      icon: Icons.event,
-                      label: 'Gestione Eventi',
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const GestioneEventiScreen(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const GestioneEventiScreen(),
+                                  ),
+                                ).then((_) => _loadDashboard());
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(AppTheme.spacingM),
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.event, size: 32, color: AppTheme.primario),
+                                    const SizedBox(height: 8),
+                                    const Text('Eventi', textAlign: TextAlign.center),
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
-                        ).then((_) => _loadDashboard());
-                      },
+                        ),
+                        const SizedBox(width: AppTheme.spacingM),
+                        Expanded(
+                          child: Card(
+                            child: InkWell(
+                              onTap: _exportCSV,
+                              child: Padding(
+                                padding: const EdgeInsets.all(AppTheme.spacingM),
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.download, size: 32, color: AppTheme.success),
+                                    const SizedBox(height: 8),
+                                    const Text('Export CSV', textAlign: TextAlign.center),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: AppTheme.spacingM),
 
