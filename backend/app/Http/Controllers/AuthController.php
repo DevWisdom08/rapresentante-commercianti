@@ -89,7 +89,7 @@ class AuthController extends Controller
 
         // Invia email OTP (in produzione)
         // In sviluppo, loggiamo il codice
-        \Log::info("OTP per {$user->email}: {$otpCode}");
+        Log::info("OTP per {$user->email}: {$otpCode}");
 
         return $this->successResponse([
             'user_id' => $user->id,
@@ -279,7 +279,7 @@ class AuthController extends Controller
             'otp_expires_at' => $otpExpires
         ]);
 
-        \Log::info("Nuovo OTP per {$user->email}: {$otpCode}");
+        Log::info("Nuovo OTP per {$user->email}: {$otpCode}");
 
         return $this->successResponse([
             'otp_code' => config('app.debug') ? $otpCode : null

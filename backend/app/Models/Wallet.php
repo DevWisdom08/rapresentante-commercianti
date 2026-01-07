@@ -60,7 +60,7 @@ class Wallet extends Model
         $this->saldo_punti += $punti;
         $this->ultimo_aggiornamento = now();
         
-        \Log::info("Wallet {$this->id}: +{$punti} punti. Nuovo saldo: {$this->saldo_punti}. Motivo: {$motivo}");
+        // Log::info("Wallet {$this->id}: +{$punti} punti. Nuovo saldo: {$this->saldo_punti}. Motivo: {$motivo}");
         
         return $this->save();
     }
@@ -82,7 +82,7 @@ class Wallet extends Model
         $this->saldo_punti -= $punti;
         $this->ultimo_aggiornamento = now();
         
-        \Log::info("Wallet {$this->id}: -{$punti} punti. Nuovo saldo: {$this->saldo_punti}. Motivo: {$motivo}");
+        // Log::info("Wallet {$this->id}: -{$punti} punti. Nuovo saldo: {$this->saldo_punti}. Motivo: {$motivo}");
         
         return $this->save();
     }
@@ -98,7 +98,7 @@ class Wallet extends Model
         $this->punti_emessi += $punti;
         $this->ultimo_aggiornamento = now();
         
-        \Log::info("Wallet {$this->id} (Esercente): Emessi +{$punti}. Totale emessi: {$this->punti_emessi}");
+        // Log::info("Wallet {$this->id} (Esercente): Emessi +{$punti}. Totale emessi: {$this->punti_emessi}");
         
         return $this->save();
     }
@@ -114,7 +114,7 @@ class Wallet extends Model
         $this->punti_incassati += $punti;
         $this->ultimo_aggiornamento = now();
         
-        \Log::info("Wallet {$this->id} (Esercente): Incassati +{$punti}. Totale incassati: {$this->punti_incassati}");
+        // Log::info("Wallet {$this->id} (Esercente): Incassati +{$punti}. Totale incassati: {$this->punti_incassati}");
         
         return $this->save();
     }
