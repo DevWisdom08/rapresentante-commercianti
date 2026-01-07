@@ -5,6 +5,7 @@ import '../../config/theme.dart';
 import '../../services/api_service.dart';
 import '../../config/api_config.dart';
 import 'gestione_utenti_screen.dart';
+import 'configurazioni_screen.dart';
 
 /// Dashboard Centrale (Admin)
 class DashboardCentrale extends StatefulWidget {
@@ -126,11 +127,14 @@ class _DashboardCentraleState extends State<DashboardCentrale> {
                         Expanded(
                           child: _buildActionCard(
                             context,
-                            icon: Icons.assessment,
-                            label: 'Report\nGlobali',
+                            icon: Icons.settings,
+                            label: 'Configurazioni',
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Report in sviluppo')),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ConfigurazioniScreen(),
+                                ),
                               );
                             },
                           ),
