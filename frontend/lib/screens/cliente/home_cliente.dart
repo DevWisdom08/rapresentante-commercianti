@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/wallet_provider.dart';
 import '../../config/theme.dart';
+import 'storico_transazioni_screen.dart';
+import 'lista_esercenti_screen.dart';
 
 /// Home Cliente con wallet e funzionalità base
 class HomeCliente extends StatefulWidget {
@@ -114,9 +116,10 @@ class _HomeClienteState extends State<HomeCliente> {
                             icon: Icons.history,
                             label: 'Storico',
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Storico transazioni in sviluppo'),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const StoricoTransazioniScreen(),
                                 ),
                               );
                             },
@@ -129,9 +132,10 @@ class _HomeClienteState extends State<HomeCliente> {
                             icon: Icons.store,
                             label: 'Negozi',
                             onTap: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Lista negozi in sviluppo'),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ListaEsercentiScreen(),
                                 ),
                               );
                             },
