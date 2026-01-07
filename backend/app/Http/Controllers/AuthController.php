@@ -87,22 +87,19 @@ class AuthController extends Controller
             }
         }
 
-        // Invia email OTP (in produzione)
-        // In sviluppo, loggiamo il codice
-        Log::info("OTP per {$user->email}: {$otpCode}");
-        
-        // Mostra nel terminal per sviluppo
-        dump("╔════════════════════════════════════╗");
-        dump("║  OTP CODE FOR: {$user->email}");
-        dump("║  CODE: {$otpCode}");
-        dump("╚════════════════════════════════════╝");
+        // In sviluppo, mostra OTP nella risposta
+        // In produzione, invia via email
+        error_log("========================================");
+        error_log("OTP CODE FOR: {$user->email}");
+        error_log("CODE: {$otpCode}");
+        error_log("========================================");
 
         return $this->successResponse([
             'user_id' => $user->id,
             'email' => $user->email,
             'otp_inviato' => true,
-            'otp_code' => config('app.debug') ? $otpCode : null // Solo in debug
-        ], 'Registrazione completata. Controlla la tua email per il codice OTP.', 201);
+            'otp_code' => $otpCode // Sempre visibile per MVP
+        ], 'Registrazione completata. OTP: ' . $otpCode, 201);
     }
 
     /**
@@ -285,17 +282,14 @@ class AuthController extends Controller
             'otp_expires_at' => $otpExpires
         ]);
 
-        Log::info("Nuovo OTP per {$user->email}: {$otpCode}");
-        
-        // Mostra nel terminal
-        dump("╔════════════════════════════════════╗");
-        dump("║  NEW OTP FOR: {$user->email}");
-        dump("║  CODE: {$otpCode}");
-        dump("╚════════════════════════════════════╝");
+        error_log("========================================");
+        error_log("NEW OTP FOR: {$user->email}");
+        error_log("CODE: {$otpCode}");
+        error_log("========================================");
 
         return $this->successResponse([
-            'otp_code' => config('app.debug') ? $otpCode : null
-        ], 'Nuovo codice OTP inviato');
+            'otp_code' => $otpCode
+        ], 'Nuovo codice OTP inviato. Codice: ' . $otpCode);
     }
 }
 
