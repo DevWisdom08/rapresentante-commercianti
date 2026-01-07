@@ -6,6 +6,7 @@ import '../../services/api_service.dart';
 import '../../config/api_config.dart';
 import 'assegna_punti_screen.dart';
 import 'accetta_punti_screen.dart';
+import 'promozioni_screen.dart';
 
 /// Home Esercente
 class HomeEsercente extends StatefulWidget {
@@ -138,6 +139,24 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: AppTheme.spacingM),
+                    
+                    // Promozioni
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.local_offer, color: AppTheme.primario),
+                        title: const Text('Le Mie Promozioni'),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PromozioniScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: AppTheme.spacingM),
 
