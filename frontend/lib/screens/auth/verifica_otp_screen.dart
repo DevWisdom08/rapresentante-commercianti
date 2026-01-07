@@ -58,7 +58,16 @@ class _VerificaOtpScreenState extends State<VerificaOtpScreen> {
 
       if (!mounted) return;
 
-      // Verifica riuscita - routing automatico nel main.dart
+      // Verifica riuscita - vai alla home basata sul ruolo
+      final user = authProvider.user;
+      if (user != null) {
+        String route = '/home-cliente';
+        if (user.ruolo == 'esercente') route = '/home-esercente';
+        if (user.ruolo == 'rappresentante') route = '/dashboard-rappresentante';
+        if (user.ruolo == 'centrale') route = '/dashboard-centrale';
+        
+        Navigator.pushReplacementNamed(context, route);
+      }
       
     } catch (e) {
       if (!mounted) return;

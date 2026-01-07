@@ -18,7 +18,8 @@ class _HomeClienteState extends State<HomeCliente> {
     super.initState();
     // Carica wallet e transazioni
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<WalletProvider>().refresh();
+      final walletProvider = context.read<WalletProvider>();
+      walletProvider.loadWallet();
     });
   }
 
