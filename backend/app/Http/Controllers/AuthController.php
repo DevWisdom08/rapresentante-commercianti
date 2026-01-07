@@ -90,6 +90,12 @@ class AuthController extends Controller
         // Invia email OTP (in produzione)
         // In sviluppo, loggiamo il codice
         Log::info("OTP per {$user->email}: {$otpCode}");
+        
+        // Mostra nel terminal per sviluppo
+        dump("╔════════════════════════════════════╗");
+        dump("║  OTP CODE FOR: {$user->email}");
+        dump("║  CODE: {$otpCode}");
+        dump("╚════════════════════════════════════╝");
 
         return $this->successResponse([
             'user_id' => $user->id,
@@ -280,6 +286,12 @@ class AuthController extends Controller
         ]);
 
         Log::info("Nuovo OTP per {$user->email}: {$otpCode}");
+        
+        // Mostra nel terminal
+        dump("╔════════════════════════════════════╗");
+        dump("║  NEW OTP FOR: {$user->email}");
+        dump("║  CODE: {$otpCode}");
+        dump("╚════════════════════════════════════╝");
 
         return $this->successResponse([
             'otp_code' => config('app.debug') ? $otpCode : null
