@@ -4,6 +4,7 @@ import '../../providers/auth_provider.dart';
 import '../../config/theme.dart';
 import '../../services/api_service.dart';
 import '../../config/api_config.dart';
+import 'gestione_eventi_screen.dart';
 
 /// Dashboard Rappresentante
 class DashboardRappresentante extends StatefulWidget {
@@ -97,6 +98,22 @@ class _DashboardRappresentanteState extends State<DashboardRappresentante> {
                           ],
                         ),
                       ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingM),
+
+                    // Azioni
+                    _buildActionCard(
+                      context,
+                      icon: Icons.event,
+                      label: 'Gestione Eventi',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const GestioneEventiScreen(),
+                          ),
+                        ).then((_) => _loadDashboard());
+                      },
                     ),
                     const SizedBox(height: AppTheme.spacingM),
 
@@ -253,6 +270,31 @@ class _DashboardRappresentanteState extends State<DashboardRappresentante> {
             style: const TextStyle(fontWeight: FontWeight.w600),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildActionCard(BuildContext context,
+      {required IconData icon, required String label, required VoidCallback onTap}) {
+    return Card(
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppTheme.radiusM),
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.spacingL),
+          child: Row(
+            children: [
+              Icon(icon, size: 32, color: AppTheme.primario),
+              const SizedBox(width: AppTheme.spacingM),
+              Text(
+                label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const Spacer(),
+              const Icon(Icons.arrow_forward_ios, size: 16),
+            ],
+          ),
+        ),
       ),
     );
   }
