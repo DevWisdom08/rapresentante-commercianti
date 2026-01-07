@@ -37,8 +37,14 @@ class ApiService {
           .timeout(Duration(seconds: ApiConfig.timeout));
 
       return _handleResponse(response);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      return _handleError(e);
+      throw ApiException(
+        statusCode: 0,
+        message: 'Errore di connessione. Verifica la tua connessione internet.',
+        errorCode: 'NETWORK_ERROR',
+      );
     }
   }
 
@@ -60,8 +66,14 @@ class ApiService {
           .timeout(Duration(seconds: ApiConfig.timeout));
 
       return _handleResponse(response);
+    } on ApiException {
+      rethrow;
     } catch (e) {
-      return _handleError(e);
+      throw ApiException(
+        statusCode: 0,
+        message: 'Errore di connessione. Verifica la tua connessione internet.',
+        errorCode: 'NETWORK_ERROR',
+      );
     }
   }
 
@@ -135,15 +147,6 @@ class ApiService {
     }
   }
 
-  /// Gestione errori
-  Map<String, dynamic> _handleError(dynamic error) {
-    // Errori di rete o timeout
-    throw ApiException(
-      statusCode: 0,
-      message: 'Errore di connessione. Verifica la tua connessione internet.',
-      errorCode: 'NETWORK_ERROR',
-    );
-  }
 }
 
 /// Eccezione personalizzata API
