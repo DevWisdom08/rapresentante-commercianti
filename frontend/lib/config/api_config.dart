@@ -8,8 +8,8 @@ class ApiConfig {
   
   /// Base URL backend API
   static String get baseUrl => kIsWeb 
-      ? 'http://localhost:8000/api/v1'          // Web browser
-      : 'http://10.0.2.2:8000/api/v1';          // Android/iOS emulator
+      ? 'http://146.190.50.136/api/v1'          // Web browser
+      : 'http://146.190.50.136/api/v1';          // Android/iOS emulator
 
   /// Timeout richieste HTTP (secondi)
   static const int timeout = 30;
