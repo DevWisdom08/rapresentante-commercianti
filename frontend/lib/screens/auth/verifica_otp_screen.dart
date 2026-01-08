@@ -21,10 +21,16 @@ class _VerificaOtpScreenState extends State<VerificaOtpScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Recupera email dai parametri route
+    // Recupera email e OTP dai parametri route
     if (_email == null) {
       final args = ModalRoute.of(context)?.settings.arguments as Map?;
       _email = args?['email'];
+      
+      // Se c'è OTP prefill, inseriscilo automaticamente
+      final otpPrefill = args?['otp_prefill'];
+      if (otpPrefill != null && _otpController.text.isEmpty) {
+        _otpController.text = otpPrefill.toString();
+      }
     }
   }
 

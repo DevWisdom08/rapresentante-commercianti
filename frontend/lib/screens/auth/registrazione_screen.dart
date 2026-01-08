@@ -44,7 +44,7 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
-      await authProvider.registrazione(
+      final result = await authProvider.registrazione(
         email: _emailController.text.trim(),
         password: _passwordController.text,
         passwordConfirmation: _passwordConfirmController.text,
@@ -58,14 +58,83 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
 
       if (!mounted) return;
 
-      // Vai a verifica OTP
-      Navigator.pushReplacementNamed(
-        context,
-        '/verifica-otp',
-        arguments: {
-          'email': _emailController.text.trim(),
-        },
-      );
+      // Mostra OTP in dialog
+      final otpCode = result['otp_code']?.toString();
+      if (otpCode != null) {
+        await showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: Row(
+              children: [
+                Icon(Icons.mark_email_read, color: AppTheme.success),
+                const SizedBox(width: 12),
+                const Text('Registrazione Completata!'),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Il tuo codice di verifica è:',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: AppTheme.primario.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppTheme.primario, width: 2),
+                  ),
+                  child: Text(
+                    otpCode,
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 8,
+                      color: AppTheme.primario,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Memorizza questo codice!',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppTheme.warning,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  // Vai a verifica OTP
+                  Navigator.pushReplacementNamed(
+                    context,
+                    '/verifica-otp',
+                    arguments: {
+                      'email': _emailController.text.trim(),
+                      'otp_prefill': otpCode, // Pre-compila l'OTP
+                    },
+                  );
+                },
+                child: const Text('CONTINUA'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        // Fallback se non c'è OTP nel response
+        Navigator.pushReplacementNamed(
+          context,
+          '/verifica-otp',
+          arguments: {
+            'email': _emailController.text.trim(),
+          },
+        );
+      }
       
     } catch (e) {
       if (!mounted) return;
