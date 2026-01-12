@@ -184,40 +184,65 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
             // Cliente
             Card(
               color: _clienteId != null ? AppTheme.success.withOpacity(0.1) : null,
-              child: ListTile(
-                leading: Icon(
-                  _clienteId != null ? Icons.check_circle : Icons.person,
-                  color: _clienteId != null ? AppTheme.success : AppTheme.grigio500,
-                ),
-                title: Text(_clienteId != null ? 'Cliente: $_clienteNome' : 'Scansiona cliente'),
-                subtitle: _clienteId != null ? Text('ID: $_clienteId') : null,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
+              child: Padding(
+                padding: const EdgeInsets.all(AppTheme.spacingM),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // TEST button (remove before production!)
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        setState(() {
-                          _clienteId = 6;
-                          _clienteNome = 'Mario Rossi (TEST)';
-                          _anteprima = null;
-                        });
-                        if (_categorie.isNotEmpty) {
-                          _calcolaAnteprima();
-                        }
-                      },
-                      icon: const Icon(Icons.bug_report, size: 16),
-                      label: const Text('TEST'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppTheme.warning,
-                        side: BorderSide(color: AppTheme.warning),
-                      ),
+                    Row(
+                      children: [
+                        Icon(
+                          _clienteId != null ? Icons.check_circle : Icons.person,
+                          color: _clienteId != null ? AppTheme.success : AppTheme.grigio500,
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _clienteId != null ? 'Cliente: $_clienteNome' : 'Scansiona cliente',
+                                style: const TextStyle(fontWeight: FontWeight.w600),
+                              ),
+                              if (_clienteId != null)
+                                Text('ID: $_clienteId', style: TextStyle(fontSize: 12, color: AppTheme.grigio500)),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    ElevatedButton.icon(
-                      onPressed: _scansionaCliente,
-                      icon: const Icon(Icons.qr_code_scanner, size: 20),
-                      label: const Text('SCAN'),
+                    const SizedBox(height: AppTheme.spacingM),
+                    Row(
+                      children: [
+                        // TEST button
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                _clienteId = 6;
+                                _clienteNome = 'Mario Rossi';
+                                _anteprima = null;
+                              });
+                              if (_categorie.isNotEmpty) {
+                                _calcolaAnteprima();
+                              }
+                            },
+                            icon: const Icon(Icons.bug_report, size: 18),
+                            label: const Text('TEST'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppTheme.warning,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: _scansionaCliente,
+                            icon: const Icon(Icons.qr_code_scanner, size: 20),
+                            label: const Text('SCAN'),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
