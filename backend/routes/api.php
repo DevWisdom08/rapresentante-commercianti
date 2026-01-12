@@ -7,6 +7,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\EsercenteController;
 use App\Http\Controllers\RappresentanteController;
 use App\Http\Controllers\CentraleController;
+use App\Http\Controllers\TransazioneController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,16 @@ Route::prefix('v1')->group(function () {
         Route::post('/accetta-punti', [EsercenteController::class, 'accettaPunti']);
         Route::get('/dashboard', [EsercenteController::class, 'dashboard']);
         Route::post('/verifica-cliente', [EsercenteController::class, 'verificaCliente']);
+    });
+
+    /*
+    |--------------------------------------------------------------------------
+    | TRANSAZIONI UNIFICATE
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware(['auth.simple', 'role:esercente'])->prefix('transazione')->group(function () {
+        Route::post('/anteprima', [TransazioneController::class, 'anteprimaTransazione']);
+        Route::post('/unificata', [TransazioneController::class, 'transazioneUnificata']);
     });
 
     // Lista esercenti (accessibile a clienti e esercenti)

@@ -7,6 +7,7 @@ import '../../config/api_config.dart';
 import 'assegna_punti_screen.dart';
 import 'accetta_punti_screen.dart';
 import 'promozioni_screen.dart';
+import 'transazione_unificata_screen.dart';
 
 /// Home Esercente
 class HomeEsercente extends StatefulWidget {
@@ -100,15 +101,65 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                       const SizedBox(height: AppTheme.spacingM),
                     ],
 
-                    // Azioni
+                    // Transazione Unificata (NUOVA - Priorità)
+                    Card(
+                      color: AppTheme.primario.withOpacity(0.05),
+                      child: InkWell(
+                        onTap: () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const TransazioneUnificataScreen(),
+                            ),
+                          );
+                          if (result == true) _loadDashboard();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(AppTheme.spacingL),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.primario,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Icon(Icons.point_of_sale, color: Colors.white, size: 32),
+                              ),
+                              const SizedBox(width: AppTheme.spacingM),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Nuova Vendita',
+                                      style: Theme.of(context).textTheme.titleLarge,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Sconta + Genera punti in un\'unica transazione',
+                                      style: Theme.of(context).textTheme.bodySmall,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const Icon(Icons.arrow_forward_ios),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingM),
+
+                    // Azioni rapide (vecchie - opzionali)
                     Row(
                       children: [
                         Expanded(
                           child: _buildActionCard(
                             context,
                             icon: Icons.add_circle,
-                            label: 'Assegna\nPunti',
-                            color: AppTheme.primario,
+                            label: 'Solo\nAssegna',
+                            color: AppTheme.grigio500,
                             onTap: () async {
                               final result = await Navigator.push(
                                 context,
@@ -125,8 +176,8 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                           child: _buildActionCard(
                             context,
                             icon: Icons.payment,
-                            label: 'Accetta\nPunti',
-                            color: AppTheme.success,
+                            label: 'Solo\nAccetta',
+                            color: AppTheme.grigio500,
                             onTap: () async {
                               final result = await Navigator.push(
                                 context,
