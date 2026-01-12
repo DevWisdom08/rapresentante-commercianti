@@ -191,10 +191,35 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
                 ),
                 title: Text(_clienteId != null ? 'Cliente: $_clienteNome' : 'Scansiona cliente'),
                 subtitle: _clienteId != null ? Text('ID: $_clienteId') : null,
-                trailing: ElevatedButton.icon(
-                  onPressed: _scansionaCliente,
-                  icon: const Icon(Icons.qr_code_scanner, size: 20),
-                  label: const Text('SCAN'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // TEST button (remove before production!)
+                    OutlinedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _clienteId = 6;
+                          _clienteNome = 'Mario Rossi (TEST)';
+                          _anteprima = null;
+                        });
+                        if (_categorie.isNotEmpty) {
+                          _calcolaAnteprima();
+                        }
+                      },
+                      icon: const Icon(Icons.bug_report, size: 16),
+                      label: const Text('TEST'),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppTheme.warning,
+                        side: BorderSide(color: AppTheme.warning),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ElevatedButton.icon(
+                      onPressed: _scansionaCliente,
+                      icon: const Icon(Icons.qr_code_scanner, size: 20),
+                      label: const Text('SCAN'),
+                    ),
+                  ],
                 ),
               ),
             ),
