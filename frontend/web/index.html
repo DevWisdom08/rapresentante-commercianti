@@ -33,6 +33,12 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <script>
+    // Disable service worker for HTTP deployment
+    window.flutterConfiguration = {
+      serviceWorkerVersion: null,
+    };
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
