@@ -475,15 +475,29 @@ class _CategoriaDialog extends StatefulWidget {
 }
 
 class _CategoriaDialogState extends State<_CategoriaDialog> {
-  final _nomeController = TextEditingController();
+  String? _categoriaSelezionata = 'Tutto';
   final _importoController = TextEditingController();
-  final _percentualeController = TextEditingController(text: '30');
+  int _percentualeDefault = 30;
+  
+  final Map<String, int> _scontiDefault = {
+    'Tutto': 30,
+    'Alimentari': 25,
+    'Bevande': 20,
+    'Abbigliamento': 30,
+    'Elettronica': 15,
+    'Casa': 25,
+    'Servizi': 20,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _percentualeDefault = _scontiDefault[_categoriaSelezionata] ?? 30;
+  }
 
   @override
   void dispose() {
-    _nomeController.dispose();
     _importoController.dispose();
-    _percentualeController.dispose();
     super.dispose();
   }
 
@@ -494,12 +508,24 @@ class _CategoriaDialogState extends State<_CategoriaDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            controller: _nomeController,
+          DropdownButtonFormField<String>(
+            value: _categoriaSelezionata,
             decoration: const InputDecoration(
               labelText: 'Categoria',
-              hintText: 'Alimentari, Bevande...',
+              prefixIcon: Icon(Icons.category),
             ),
+            items: _scontiDefault.keys.map((cat) {
+              return DropdownMenuItem(
+                value: cat,
+                child: Text(cat),
+              );
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                _categoriaSelezionata = value;
+                _percentualeDefault = _scontiDefault[value] ?? 30;
+              });
+            },
           ),
           const SizedBox(height: AppTheme.spacingM),
           TextField(
@@ -511,13 +537,25 @@ class _CategoriaDialogState extends State<_CategoriaDialog> {
             ),
           ),
           const SizedBox(height: AppTheme.spacingM),
-          TextField(
-            controller: _percentualeController,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              labelText: 'Sconto Max (%)',
-              hintText: '30',
-              suffixText: '%',
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: AppTheme.success.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Sconto Max:'),
+                Text(
+                  '$_percentualeDefault%',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppTheme.success,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -529,12 +567,11 @@ class _CategoriaDialogState extends State<_CategoriaDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            final nome = _nomeController.text.trim();
+            final nome = _categoriaSelezionata ?? 'Tutto';
             final importo = double.tryParse(_importoController.text);
-            final percentuale = int.tryParse(_percentualeController.text);
 
-            if (nome.isNotEmpty && importo != null && percentuale != null) {
-              widget.onSave(nome, importo, percentuale);
+            if (importo != null && importo > 0) {
+              widget.onSave(nome, importo, _percentualeDefault);
               Navigator.pop(context);
             }
           },
