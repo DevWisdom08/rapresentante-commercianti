@@ -204,7 +204,10 @@ class TransazioneController extends Controller
             $puntiSpendibili = $puoSpendere ? min($puntiDisponibili, $scontoMaxTotale) : 0;
             $scontoApplicato = $puntiSpendibili;
             $importoDaPagare = $totaleAcquisto - $scontoApplicato;
-            $nuoviPuntiGenerati = $importoDaPagare;
+            
+            // Usa rapporto configurato per nuovi punti
+            $euroPerPunto = config('app.euro_per_punto', 10.00);
+            $nuoviPuntiGenerati = round($importoDaPagare / $euroPerPunto, 2);
 
             return $this->successResponse([
                 'totale_acquisto' => round($totaleAcquisto, 2),

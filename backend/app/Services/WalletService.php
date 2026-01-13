@@ -86,9 +86,10 @@ class WalletService
                 throw new \Exception('Cliente non valido');
             }
 
-            // Calcola punti (1 punto = 1 euro)
-            $tassioCambio = config('app.tasso_cambio_punti_euro', 1.00);
-            $punti = $importoEuro * $tassioCambio;
+            // Calcola punti usando rapporto configurato
+            // Default: 10 euro = 1 punto
+            $euroPerPunto = config('app.euro_per_punto', 10.00);
+            $punti = $importoEuro / $euroPerPunto;
 
             // Limiti configurabili
             $limiteMax = config('app.limite_max_punti_transazione', 500.00);
