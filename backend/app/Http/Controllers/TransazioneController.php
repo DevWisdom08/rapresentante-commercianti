@@ -96,8 +96,10 @@ class TransazioneController extends Controller
             $scontoApplicato = $puntiSpendibili;
             $importoDaPagare = $totaleAcquisto - $scontoApplicato;
 
-            // Genera nuovi punti sull'importo pagato (1 euro = 1 punto)
-            $nuoviPuntiGenerati = $importoDaPagare;
+            // Genera nuovi punti sull'importo pagato
+            // Usa rapporto configurato: X euro = 1 punto
+            $euroPerPunto = config('app.euro_per_punto', 10.00);
+            $nuoviPuntiGenerati = $importoDaPagare / $euroPerPunto;
 
             // Esegui transazione in database
             DB::transaction(function () use (
