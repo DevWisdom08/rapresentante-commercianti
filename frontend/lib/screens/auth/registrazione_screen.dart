@@ -44,8 +44,14 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
+      // Costruisci email completa
+      String emailCompleta = _emailController.text.trim();
+      if (!emailCompleta.contains('@')) {
+        emailCompleta = emailCompleta + '@rapresentante.it';
+      }
+      
       final result = await authProvider.registrazione(
-        email: _emailController.text.trim(),
+        email: emailCompleta,
         password: _passwordController.text,
         passwordConfirmation: _passwordConfirmController.text,
         nome: _nomeController.text.trim(),
@@ -115,7 +121,7 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                     context,
                     '/verifica-otp',
                     arguments: {
-                      'email': _emailController.text.trim(),
+                      'email': emailCompleta,
                       'otp_prefill': otpCode, // Pre-compila l'OTP
                     },
                   );
@@ -131,7 +137,7 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
           context,
           '/verifica-otp',
           arguments: {
-            'email': _emailController.text.trim(),
+            'email': emailCompleta,
           },
         );
       }
@@ -234,24 +240,38 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                 ),
                 const SizedBox(height: AppTheme.spacingM),
 
-                // Email
-                TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Inserisci la tua email';
-                    }
-                    if (!value.contains('@')) {
-                      return 'Email non valida';
-                    }
-                    return null;
-                  },
+                // Email (semplificato con dominio auto)
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _emailController,
+                        textInputAction: TextInputAction.next,
+                        decoration: const InputDecoration(
+                          labelText: 'Nome Utente',
+                          hintText: 'mario.rossi',
+                          prefixIcon: Icon(Icons.person),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Inserisci nome utente';
+                          }
+                          // Accetta sia nome che email completa
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 16),
+                      child: Text(
+                        '@rapresentante.it',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: AppTheme.grigio500,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: AppTheme.spacingM),
 
