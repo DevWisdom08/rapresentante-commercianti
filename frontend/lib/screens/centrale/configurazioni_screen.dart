@@ -18,6 +18,8 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
   final _bonusBenvenutoController = TextEditingController();
   final _scadenzaPuntiController = TextEditingController();
   final _limitePuntiController = TextEditingController();
+  final _euroPerPuntoController = TextEditingController();
+  final _dominioEmailController = TextEditingController();
   
   bool _isLoading = true;
   bool _isSaving = false;
@@ -33,6 +35,8 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
     _bonusBenvenutoController.dispose();
     _scadenzaPuntiController.dispose();
     _limitePuntiController.dispose();
+    _euroPerPuntoController.dispose();
+    _dominioEmailController.dispose();
     super.dispose();
   }
 
@@ -46,6 +50,8 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
         _bonusBenvenutoController.text = '${data['bonus_benvenuto'] ?? 10}';
         _scadenzaPuntiController.text = '${data['scadenza_punti_giorni'] ?? 180}';
         _limitePuntiController.text = '${data['limite_max_punti_transazione'] ?? 500}';
+        _euroPerPuntoController.text = '${data['euro_per_punto'] ?? 10}';
+        _dominioEmailController.text = '${data['dominio_email_default'] ?? '@rapresentante.it'}';
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -167,6 +173,37 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
                               validator: (v) {
                                 if (v == null || v.isEmpty) return 'Richiesto';
                                 if (double.tryParse(v) == null) return 'Numero non valido';
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: AppTheme.spacingM),
+
+                            TextFormField(
+                              controller: _euroPerPuntoController,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                labelText: 'Euro per 1 Punto',
+                                helperText: 'Quanti euro di spesa generano 1 punto (default: 10)',
+                                prefixIcon: Icon(Icons.euro),
+                              ),
+                              validator: (v) {
+                                if (v == null || v.isEmpty) return 'Richiesto';
+                                if (double.tryParse(v) == null) return 'Numero non valido';
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: AppTheme.spacingM),
+
+                            TextFormField(
+                              controller: _dominioEmailController,
+                              decoration: const InputDecoration(
+                                labelText: 'Dominio Email Default',
+                                helperText: 'Es: @rapresentante.it',
+                                prefixIcon: Icon(Icons.alternate_email),
+                              ),
+                              validator: (v) {
+                                if (v == null || v.isEmpty) return 'Richiesto';
+                                if (!v.startsWith('@')) return 'Deve iniziare con @';
                                 return null;
                               },
                             ),
