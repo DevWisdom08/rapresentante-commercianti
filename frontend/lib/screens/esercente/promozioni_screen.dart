@@ -10,6 +10,9 @@ class PromozioniScreen extends StatefulWidget {
 }
 
 class _PromozioniScreenState extends State<PromozioniScreen> {
+  bool _promoPrimiClientiAttiva = false;
+  int _promoPrimiClientiPercentuale = 50; // Doppio dello sconto normale
+
   final List<Map<String, dynamic>> _promozioni = [
     {
       'titolo': 'Sconto 20% su tutti i prodotti',
@@ -47,49 +50,134 @@ class _PromozioniScreenState extends State<PromozioniScreen> {
           ),
         ],
       ),
-      body: _promozioni.isEmpty
-          ? Center(
+      body: ListView(
+        padding: const EdgeInsets.all(AppTheme.spacingM),
+        children: [
+          // Promo Primi Clienti (SPECIALE)
+          Card(
+            color: AppTheme.warning.withOpacity(0.05),
+            child: Padding(
+              padding: const EdgeInsets.all(AppTheme.spacingM),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(Icons.local_offer, size: 64, color: AppTheme.grigio300),
-                  const SizedBox(height: AppTheme.spacingM),
-                  const Text('Nessuna promozione attiva'),
-                  const SizedBox(height: AppTheme.spacingM),
-                  ElevatedButton.icon(
+                  Row(
+                    children: [
+                      Icon(Icons.stars, color: AppTheme.warning),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Promo Primi Clienti',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                      Switch(
+                        value: _promoPrimiClientiAttiva,
+                        onChanged: (value) {
+                          setState(() => _promoPrimiClientiAttiva = value);
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Doppio sconto per clienti che non hanno mai acquistato prima',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  if (_promoPrimiClientiAttiva) ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        const Text('Percentuale sconto:'),
+                        const Spacer(),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: AppTheme.warning.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.remove, size: 16),
+                                onPressed: () {
+                                  if (_promoPrimiClientiPercentuale > 10) {
+                                    setState(() => _promoPrimiClientiPercentuale -= 10);
+                                  }
+                                },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                child: Text(
+                                  '$_promoPrimiClientiPercentuale%',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.add, size: 16),
+                                onPressed: () {
+                                  if (_promoPrimiClientiPercentuale < 100) {
+                                    setState(() => _promoPrimiClientiPercentuale += 10);
+                                  }
+                                },
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: AppTheme.spacingM),
+          
+          // Altre promozioni
+          if (_promozioni.isEmpty)
+            Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppTheme.spacingL),
+                  child: ElevatedButton.icon(
                     onPressed: _aggiungiPromozione,
                     icon: const Icon(Icons.add),
                     label: const Text('Crea Promozione'),
                   ),
-                ],
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(AppTheme.spacingM),
-              itemCount: _promozioni.length,
-              itemBuilder: (context, index) {
-                final promo = _promozioni[index];
-                return Card(
-                  margin: const EdgeInsets.only(bottom: AppTheme.spacingM),
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.local_offer,
-                      color: promo['attivo'] ? AppTheme.success : AppTheme.grigio300,
-                    ),
-                    title: Text(promo['titolo']),
-                    subtitle: Text(promo['descrizione']),
-                    trailing: Switch(
-                      value: promo['attivo'],
-                      onChanged: (value) {
-                        setState(() {
-                          _promozioni[index]['attivo'] = value;
-                        });
-                      },
-                    ),
+                ),
+              )
+          else
+            ..._promozioni.asMap().entries.map((entry) {
+              final index = entry.key;
+              final promo = entry.value;
+              return Card(
+                margin: const EdgeInsets.only(bottom: AppTheme.spacingM),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.local_offer,
+                    color: promo['attivo'] ? AppTheme.success : AppTheme.grigio300,
                   ),
-                );
-              },
-            ),
+                  title: Text(promo['titolo']),
+                  subtitle: Text(promo['descrizione']),
+                  trailing: Switch(
+                    value: promo['attivo'],
+                    onChanged: (value) {
+                      setState(() {
+                        _promozioni[index]['attivo'] = value;
+                      });
+                    },
+                  ),
+                ),
+              );
+            }),
+        ],
+      ),
     );
   }
 }
