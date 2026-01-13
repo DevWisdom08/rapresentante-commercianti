@@ -6,6 +6,7 @@ import '../../config/theme.dart';
 import 'storico_transazioni_screen.dart';
 import 'lista_esercenti_screen.dart';
 import 'qr_code_screen.dart';
+import 'promozioni_cliente_screen.dart';
 
 /// Home Cliente con wallet e funzionalità base
 class HomeCliente extends StatefulWidget {
@@ -155,6 +156,26 @@ class _HomeClienteState extends State<HomeCliente> {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: AppTheme.spacingM),
+                    
+                    // Promozioni (NUOVO)
+                    Card(
+                      color: AppTheme.warning.withOpacity(0.05),
+                      child: ListTile(
+                        leading: Icon(Icons.local_offer, color: AppTheme.warning),
+                        title: const Text('Promozioni Attive'),
+                        subtitle: const Text('Scopri gli sconti disponibili'),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const PromozioniClienteScreen(),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                     const SizedBox(height: AppTheme.spacingM),
 
