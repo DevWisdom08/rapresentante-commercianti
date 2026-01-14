@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../../providers/auth_provider.dart';
 import '../../config/theme.dart';
+import '../../config/api_config.dart';
 
 /// Schermata Registrazione
 class RegistrazioneScreen extends StatefulWidget {
