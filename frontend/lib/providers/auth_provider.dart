@@ -63,6 +63,12 @@ class AuthProvider with ChangeNotifier {
         ruolo: ruolo,
       );
 
+      // Se registrazione diretta (con token), imposta user
+      if (result.containsKey('user')) {
+        _user = User.fromJson(result['user']);
+        _error = null;
+      }
+
       return result;
     } catch (e) {
       _error = _extractErrorMessage(e);
