@@ -27,6 +27,8 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
   bool _obscurePassword = true;
   bool _obscurePasswordConfirm = true;
   bool _isLoading = false;
+  List<Map<String, dynamic>> _suggerimentiUsername = [];
+  bool _isCheckingUsername = false;
 
   @override
   void dispose() {
