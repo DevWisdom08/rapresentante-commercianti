@@ -64,81 +64,67 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
 
       if (!mounted) return;
 
-      // Mostra OTP in dialog
-      final otpCode = result['otp_code']?.toString();
-      if (otpCode != null) {
+      // Registrazione diretta - vai direttamente alla home!
+      if (result.containsKey('registrazione_diretta') && result['registrazione_diretta'] == true) {
+        // Success popup
         await showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) => AlertDialog(
             title: Row(
               children: [
-                Icon(Icons.mark_email_read, color: AppTheme.success),
+                Icon(Icons.check_circle, color: AppTheme.success),
                 const SizedBox(width: 12),
-                const Text('Registrazione Completata!'),
+                const Text('Benvenuto!'),
               ],
             ),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Il tuo codice di verifica è:',
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  'Registrazione completata con successo!',
+                  style: Theme.of(context).textTheme.titleMedium,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: AppTheme.primario.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppTheme.primario, width: 2),
-                  ),
-                  child: Text(
-                    otpCode,
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 8,
-                      color: AppTheme.primario,
+                if (result.containsKey('user') && result['user']['ruolo'] == 'cliente')
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: AppTheme.success.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        Icon(Icons.card_giftcard, size: 48, color: AppTheme.success),
+                        const SizedBox(height: 8),
+                        const Text(
+                          'Bonus Benvenuto',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          '${config('app.bonus_benvenuto', 10)} punti',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.success,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Memorizza questo codice!',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: AppTheme.warning,
-                  ),
-                ),
               ],
             ),
             actions: [
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  // Vai a verifica OTP
-                  Navigator.pushReplacementNamed(
-                    context,
-                    '/verifica-otp',
-                    arguments: {
-                      'email': emailCompleta,
-                      'otp_prefill': otpCode, // Pre-compila l'OTP
-                    },
-                  );
+                  // La home si apre automaticamente tramite AuthProvider
                 },
-                child: const Text('CONTINUA'),
+                child: const Text('INIZIA'),
               ),
             ],
           ),
-        );
-      } else {
-        // Fallback se non c'è OTP nel response
-        Navigator.pushReplacementNamed(
-          context,
-          '/verifica-otp',
-          arguments: {
-            'email': emailCompleta,
-          },
         );
       }
       

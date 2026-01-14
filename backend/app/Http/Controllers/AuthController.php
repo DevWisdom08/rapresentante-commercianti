@@ -40,11 +40,7 @@ class AuthController extends Controller
             return $this->validationErrorResponse($validator);
         }
 
-        // Genera codice OTP per verifica email
-        $otpCode = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        $otpExpires = now()->addMinutes(15);
-
-        // Crea utente
+        // Crea utente direttamente (NO OTP - semplificato per uso in negozio)
         $user = User::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -52,8 +48,7 @@ class AuthController extends Controller
             'cognome' => $request->cognome,
             'telefono' => $request->telefono,
             'ruolo' => $request->ruolo,
-            'otp_code' => $otpCode,
-            'otp_expires_at' => $otpExpires,
+            'email_verified_at' => now(), // Verifica immediata
             'attivo' => true
         ]);
 
@@ -87,19 +82,22 @@ class AuthController extends Controller
             }
         }
 
-        // In sviluppo, mostra OTP nella risposta
-        // In produzione, invia via email
-        error_log("========================================");
-        error_log("OTP CODE FOR: {$user->email}");
-        error_log("CODE: {$otpCode}");
-        error_log("========================================");
+        // Genera token e login automatico
+        $token = base64_encode($user->id . '|' . $user->email . '|' . time());
+
+        // Carica wallet
+        $userData = $user->toArray();
+        if ($user->wallet) {
+            $userData['wallet'] = $user->wallet;
+        }
 
         return $this->successResponse([
-            'user_id' => $user->id,
-            'email' => $user->email,
-            'otp_inviato' => true,
-            'otp_code' => $otpCode // Sempre visibile per MVP
-        ], 'Registrazione completata. OTP: ' . $otpCode, 201);
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+            'expires_in' => 86400,
+            'user' => $userData,
+            'registrazione_diretta' => true
+        ], 'Registrazione completata! Benvenuto!', 201);
     }
 
     /**

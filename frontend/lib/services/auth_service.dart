@@ -33,7 +33,14 @@ class AuthService {
     );
 
     if (response['success'] == true) {
-      return response['data'];
+      final data = response['data'];
+      
+      // Se registrazione diretta (con token), salva token
+      if (data.containsKey('access_token')) {
+        await _apiService.saveToken(data['access_token']);
+      }
+      
+      return data;
     } else {
       throw Exception(response['message'] ?? 'Errore registrazione');
     }
