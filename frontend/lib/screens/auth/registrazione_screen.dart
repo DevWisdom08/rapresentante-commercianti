@@ -102,8 +102,8 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                           'Bonus Benvenuto',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        Text(
-                          '${config('app.bonus_benvenuto', 10)} punti',
+                        const Text(
+                          '10 punti',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
