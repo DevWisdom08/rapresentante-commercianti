@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
     */
     Route::prefix('auth')->group(function () {
         Route::post('/registrazione', [AuthController::class, 'registrazione']);
+        Route::post('/check-username', [AuthController::class, 'checkUsername']);
         Route::post('/verifica-otp', [AuthController::class, 'verificaOtp']);
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/reinvia-otp', [AuthController::class, 'reinviaOtp']);

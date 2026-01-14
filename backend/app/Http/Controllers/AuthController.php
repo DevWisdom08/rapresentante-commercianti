@@ -19,6 +19,65 @@ use Illuminate\Support\Str;
 class AuthController extends Controller
 {
     /**
+     * Verifica disponibilità username e suggerisce alternative
+     * 
+     * POST /api/v1/auth/check-username
+     */
+    public function checkUsername(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|string',
+            'dominio' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->validationErrorResponse($validator);
+        }
+
+        $username = strtolower(trim($request->username));
+        $dominio = $request->dominio;
+        $emailCompleta = $username . $dominio;
+
+        // Verifica se esiste
+        $exists = User::where('email', $emailCompleta)->exists();
+
+        if (!$exists) {
+            return $this->successResponse([
+                'disponibile' => true,
+                'email' => $emailCompleta,
+            ]);
+        }
+
+        // Genera suggerimenti
+        $suggerimenti = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $emailSuggerita = $username . $i . $dominio;
+            if (!User::where('email', $emailSuggerita)->exists()) {
+                $suggerimenti[] = [
+                    'username' => $username . $i,
+                    'email' => $emailSuggerita,
+                ];
+            }
+        }
+
+        // Aggiungi varianti con anno
+        $anno = date('y');
+        $emailAnno = $username . $anno . $dominio;
+        if (!User::where('email', $emailAnno)->exists()) {
+            $suggerimenti[] = [
+                'username' => $username . $anno,
+                'email' => $emailAnno,
+            ];
+        }
+
+        return $this->successResponse([
+            'disponibile' => false,
+            'email_richiesta' => $emailCompleta,
+            'suggerimenti' => array_slice($suggerimenti, 0, 3), // Max 3 suggerimenti
+        ], 'Username già in uso');
+    }
+
+    /**
      * Registrazione nuovo utente
      * 
      * @param Request $request

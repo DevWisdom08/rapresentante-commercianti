@@ -36,6 +36,42 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
     super.dispose();
   }
 
+  Future<void> _checkUsernameDisponibilita(String username) async {
+    if (username.length < 3) return;
+
+    setState(() => _isCheckingUsername = true);
+
+    try {
+      final response = await http.post(
+        Uri.parse('${ApiConfig.baseUrl.replaceAll('/v1', '')}/v1/auth/check-username'),
+        headers: ApiConfig.headers,
+        body: jsonEncode({
+          'username': username,
+          'dominio': '@rapresentante.it',
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+      
+      if (data['success'] == true) {
+        final result = data['data'];
+        setState(() {
+          if (result['disponibile'] == false) {
+            _suggerimentiUsername = List<Map<String, dynamic>>.from(result['suggerimenti'] ?? []);
+          } else {
+            _suggerimentiUsername = [];
+          }
+        });
+      }
+    } catch (e) {
+      // Ignora errori di check
+    } finally {
+      if (mounted) {
+        setState(() => _isCheckingUsername = false);
+      }
+    }
+  }
+
   Future<void> _handleRegistrazione() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -244,16 +280,30 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                       child: TextFormField(
                         controller: _emailController,
                         textInputAction: TextInputAction.next,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           labelText: 'Nome Utente',
                           hintText: 'mario.rossi',
-                          prefixIcon: Icon(Icons.person),
+                          prefixIcon: const Icon(Icons.person),
+                          suffixIcon: _isCheckingUsername 
+                              ? const SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  ),
+                                )
+                              : null,
                         ),
+                        onChanged: (value) async {
+                          if (value.length >= 3) {
+                            await _checkUsernameDisponibilita(value);
+                          }
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Inserisci nome utente';
                           }
-                          // Accetta sia nome che email completa
                           return null;
                         },
                       ),
@@ -269,6 +319,49 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                     ),
                   ],
                 ),
+                
+                // Suggerimenti username
+                if (_suggerimentiUsername.isNotEmpty) ...[
+                  const SizedBox(height: AppTheme.spacingS),
+                  Container(
+                    padding: const EdgeInsets.all(AppTheme.spacingM),
+                    decoration: BoxDecoration(
+                      color: AppTheme.warning.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.warning),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(Icons.info_outline, size: 16, color: AppTheme.warning),
+                            const SizedBox(width: 8),
+                            const Text(
+                              'Nome già in uso. Prova questi:',
+                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          children: _suggerimentiUsername.map((sug) {
+                            return ActionChip(
+                              label: Text(sug['username']),
+                              onPressed: () {
+                                setState(() {
+                                  _emailController.text = sug['username'];
+                                  _suggerimentiUsername = [];
+                                });
+                              },
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: AppTheme.spacingM),
 
                 // Telefono (opzionale)
