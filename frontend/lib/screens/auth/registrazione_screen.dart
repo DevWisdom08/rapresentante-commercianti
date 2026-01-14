@@ -118,8 +118,18 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
-                  // La home si apre automaticamente tramite AuthProvider
+                  Navigator.pop(context); // Close dialog
+                  
+                  // Navigate to appropriate dashboard based on role
+                  final user = authProvider.user;
+                  if (user != null) {
+                    String route = '/home-cliente';
+                    if (user.ruolo == 'esercente') route = '/home-esercente';
+                    if (user.ruolo == 'rappresentante') route = '/dashboard-rappresentante';
+                    if (user.ruolo == 'centrale') route = '/dashboard-centrale';
+                    
+                    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+                  }
                 },
                 child: const Text('INIZIA'),
               ),
