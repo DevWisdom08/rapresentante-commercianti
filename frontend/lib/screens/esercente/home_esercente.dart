@@ -158,7 +158,7 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                           child: _buildActionCard(
                             context,
                             icon: Icons.add_circle,
-                            label: 'Solo\nAssegna',
+                            label: 'Assegna\nPunti/Moneta',
                             color: AppTheme.grigio500,
                             onTap: () async {
                               final result = await Navigator.push(
@@ -176,7 +176,7 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                           child: _buildActionCard(
                             context,
                             icon: Icons.payment,
-                            label: 'Solo\nAccetta',
+                            label: 'Accetta\nPunti/Moneta',
                             color: AppTheme.grigio500,
                             onTap: () async {
                               final result = await Navigator.push(

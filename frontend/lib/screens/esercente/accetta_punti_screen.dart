@@ -125,7 +125,7 @@ class _AccettaPuntiScreenState extends State<AccettaPuntiScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Accetta Punti'),
+        title: const Text('Accetta Pagamento in Punti/Moneta'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTheme.spacingL),

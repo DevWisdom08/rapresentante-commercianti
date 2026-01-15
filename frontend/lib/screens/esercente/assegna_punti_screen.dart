@@ -88,7 +88,7 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Assegna Punti'),
+        title: const Text('Assegna Punti/Moneta'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTheme.spacingL),
