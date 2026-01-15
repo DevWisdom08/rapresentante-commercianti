@@ -7,7 +7,7 @@ import 'providers/wallet_provider.dart';
 import 'screens/auth/login_screen_v2.dart';
 import 'screens/auth/registrazione_screen.dart';
 import 'screens/auth/verifica_otp_screen.dart';
-import 'screens/cliente/wallet_modern_screen.dart';
+import 'screens/cliente/wallet_premium_screen.dart';
 import 'screens/esercente/home_esercente.dart';
 import 'screens/rappresentante/dashboard_rappresentante.dart';
 import 'screens/centrale/dashboard_centrale.dart';
@@ -43,7 +43,7 @@ class RapresentanteApp extends StatelessWidget {
               '/login': (context) => const LoginScreenV2(),
               '/registrazione': (context) => const RegistrazioneScreen(),
               '/verifica-otp': (context) => const VerificaOtpScreen(),
-              '/home-cliente': (context) => const WalletModernScreen(),
+              '/home-cliente': (context) => const WalletPremiumScreen(),
               '/home-esercente': (context) => const HomeEsercente(),
               '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
               '/dashboard-centrale': (context) => const DashboardCentrale(),
@@ -71,7 +71,7 @@ class RapresentanteApp extends StatelessWidget {
     // Routing basato su ruolo utente
     switch (authProvider.user?.ruolo) {
       case 'cliente':
-        return const WalletModernScreen();
+        return const WalletPremiumScreen();
       case 'esercente':
         return const HomeEsercente();
       case 'rappresentante':

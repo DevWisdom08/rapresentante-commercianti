@@ -301,7 +301,7 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
                           ],
                         ),
                         const SizedBox(height: 16),
-            _buildWideActionCard(
+                        _buildWideActionCard(
               icon: Icons.local_offer,
               label: 'Promozioni Attive',
               subtitle: 'Scopri le offerte',
@@ -381,27 +381,29 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
                 ),
               ],
             ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: Colors.white, size: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: Colors.white, size: 32),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -445,42 +447,44 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
                 ),
               ],
             ),
-        child: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: Icon(icon, color: Colors.white, size: 28),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(14),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.8),
-                      fontSize: 13,
-                    ),
+                  child: Icon(icon, color: Colors.white, size: 28),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.8),
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
+              ],
             ),
-            const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
-          ],
+          ),
         ),
       ),
     );
