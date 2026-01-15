@@ -134,15 +134,8 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                           animation: _glowController,
                           builder: (context, child) {
                             return Container(
-                              padding: const EdgeInsets.all(32),
                               decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: const RadialGradient(
-                                  colors: [
-                                    Color(0xFFFFD700),
-                                    Color(0xFFFFA500),
-                                  ],
-                                ),
+                                borderRadius: BorderRadius.circular(30),
                                 boxShadow: [
                                   BoxShadow(
                                     color: const Color(0xFFFFD700).withOpacity(0.5 + _glowController.value * 0.3),
@@ -151,15 +144,19 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                                   ),
                                 ],
                               ),
-                              child: const Icon(
-                                Icons.store,
-                                size: 60,
-                                color: Colors.white,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.asset(
+                                  'assets/images/logo.png',
+                                  width: 180,
+                                  height: 180,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             );
                           },
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 24),
 
                         // Branding
                         ShaderMask(
@@ -285,18 +282,25 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                                   ),
                                   const SizedBox(height: 24),
 
-                                  // Login button with gradient
+                                  // Login button - TRANSPARENT with gradient border
                                   Container(
                                     width: double.infinity,
                                     height: 56,
                                     decoration: BoxDecoration(
-                                      gradient: const LinearGradient(
-                                        colors: [Color(0xFF667eea), Color(0xFF764ba2)],
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.white.withOpacity(0.15),
+                                          Colors.white.withOpacity(0.05),
+                                        ],
                                       ),
                                       borderRadius: BorderRadius.circular(16),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: Colors.white.withOpacity(0.3),
+                                      ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF667eea).withOpacity(0.5),
+                                          color: const Color(0xFF667eea).withOpacity(0.3),
                                           blurRadius: 20,
                                           offset: const Offset(0, 10),
                                         ),
