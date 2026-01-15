@@ -83,26 +83,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     'CO-STORIES®',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      color: AppTheme.primario,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                    ),
-                  ),
-                  Text(
-                    'SOTTOCASA',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: AppTheme.primario,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 3,
                     ),
                   ),
-                  const SizedBox(height: AppTheme.spacingXs),
+                  ShaderMask(
+                    shaderCallback: (bounds) => AppTheme.gradientGold.createShader(bounds),
+                    child: Text(
+                      'SOTTOCASA',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 4,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppTheme.spacingS),
                   Text(
                     'di Plural sas di Marco Diotallevi',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.grigio500,
+                      color: Colors.white70,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -111,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Il tuo portafoglio virtuale di quartiere',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppTheme.grigio500,
+                      color: Colors.white70,
                     ),
                   ),
                   const SizedBox(height: AppTheme.spacingXl),
