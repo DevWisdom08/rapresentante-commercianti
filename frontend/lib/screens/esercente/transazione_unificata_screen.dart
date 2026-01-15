@@ -391,7 +391,7 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
                       
                       const Divider(thickness: 2),
                       _buildRiepilogoRow(
-                        'SCONTO APPLICATO',
+                        'PAGABILE CON PUNTI/MONETA',
                         '-€${_anteprima!['sconto_applicato']}',
                         bold: true,
                         color: AppTheme.success,
