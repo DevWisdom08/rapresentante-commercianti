@@ -40,19 +40,25 @@ class AppTheme {
   static const Color grigio700 = Color(0xFF374151);
   static const Color grigio900 = Color(0xFF111827);
 
-  /// Tema chiaro
-  static ThemeData get light {
+  // Dark theme colors
+  static const Color darkBg = Color(0xFF0F172A); // Deep dark blue
+  static const Color darkCard = Color(0xFF1E293B);
+  static const Color darkCardLight = Color(0xFF334155);
+  
+  /// Tema scuro moderno (default)
+  static ThemeData get dark {
     return ThemeData(
       useMaterial3: true,
-      brightness: Brightness.light,
+      brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
         seedColor: primario,
         primary: primario,
         secondary: secondario,
         error: errore,
-        brightness: Brightness.light,
+        brightness: Brightness.dark,
       ),
-      scaffoldBackgroundColor: grigio100,
+      scaffoldBackgroundColor: darkBg,
+      cardColor: darkCard,
       
       // AppBar
       appBarTheme: const AppBarTheme(

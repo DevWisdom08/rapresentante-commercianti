@@ -32,7 +32,9 @@ class RapresentanteApp extends StatelessWidget {
           return MaterialApp(
             title: 'Rapresentante Commercianti',
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
+            theme: AppTheme.dark,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.dark,
             
             // Routing basato su stato autenticazione
             home: _buildHomeScreen(authProvider),
