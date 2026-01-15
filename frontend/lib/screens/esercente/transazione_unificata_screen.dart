@@ -362,8 +362,8 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
                       const SizedBox(height: AppTheme.spacingM),
                       
                       _buildRiepilogoRow('Totale acquisto', '€${_anteprima!['totale_acquisto']}'),
-                      _buildRiepilogoRow('Sconto max applicabile', '€${_anteprima!['sconto_max_applicabile']}'),
-                      _buildRiepilogoRow('Punti disponibili cliente', '${_anteprima!['punti_disponibili_cliente']} pt'),
+                      _buildRiepilogoRow('Max pagabile in P/M', '€${_anteprima!['sconto_max_applicabile']}'),
+                      _buildRiepilogoRow('P/M disponibili cliente', '${_anteprima!['punti_disponibili_cliente']} P/M'),
                       
                       if (!_anteprima!['puo_usare_sconto'])
                         Padding(
@@ -404,13 +404,13 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
                       ),
                       const Divider(),
                       _buildRiepilogoRow(
-                        'Nuovi punti generati',
-                        '+${_anteprima!['nuovi_punti_generati']} pt',
+                        'Nuovi Punti/Moneta generati',
+                        '+${_anteprima!['nuovi_punti_generati']} P/M',
                         color: AppTheme.primario,
                       ),
                       _buildRiepilogoRow(
                         'Nuovo saldo cliente',
-                        '${_anteprima!['nuovo_saldo_cliente']} pt',
+                        '${_anteprima!['nuovo_saldo_cliente']} P/M',
                         bold: true,
                       ),
                     ],

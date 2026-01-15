@@ -169,7 +169,7 @@ class _StoricoTransazioniScreenState extends State<StoricoTransazioniScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Text(
+              Text(
               '${isEntrata ? '+' : '-'}${transazione.punti.toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 18,
@@ -177,7 +177,7 @@ class _StoricoTransazioniScreenState extends State<StoricoTransazioniScreen> {
                 color: isEntrata ? AppTheme.success : AppTheme.errore,
               ),
             ),
-            const Text('punti', style: TextStyle(fontSize: 11)),
+            const Text('P/M', style: TextStyle(fontSize: 11)),
           ],
         ),
         isThreeLine: true,
