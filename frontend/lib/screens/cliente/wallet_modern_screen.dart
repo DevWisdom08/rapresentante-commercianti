@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
+import 'dart:ui';
 import '../../providers/auth_provider.dart';
 import '../../providers/wallet_provider.dart';
 import '../../config/theme.dart';
 import '../../widgets/background_pattern.dart';
+import 'storico_transazioni_screen.dart';
+import 'lista_esercenti_screen.dart';
+import 'promozioni_cliente_screen.dart';
+import 'qr_code_screen.dart';
 
 /// Modern Premium Wallet Screen
 class WalletModernScreen extends StatefulWidget {
@@ -86,7 +91,14 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
                             ),
                             Row(
                               children: [
-                                _buildIconButton(Icons.qr_code, () {}),
+                                _buildIconButton(Icons.qr_code, () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const QrCodeScreen(),
+                    ),
+                  );
+                }),
                                 const SizedBox(width: 12),
                                 _buildIconButton(Icons.logout, () async {
                                   await context.read<AuthProvider>().logout();
@@ -260,28 +272,49 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
                           crossAxisSpacing: 16,
                           childAspectRatio: 1.5,
                           children: [
-                            _buildGradientActionCard(
-                              icon: Icons.history,
-                              label: 'Storico',
-                              colors: const [Color(0xFF667eea), Color(0xFF764ba2)],
-                              onTap: () {},
-                            ),
-                            _buildGradientActionCard(
-                              icon: Icons.store,
-                              label: 'Negozi',
-                              colors: const [Color(0xFFf093fb), Color(0xFFf5576c)],
-                              onTap: () {},
-                            ),
+            _buildGradientActionCard(
+              icon: Icons.history,
+              label: 'Storico',
+              colors: const [Color(0xFF667eea), Color(0xFF764ba2)],
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StoricoTransazioniScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildGradientActionCard(
+              icon: Icons.store,
+              label: 'Negozi',
+              colors: const [Color(0xFFf093fb), Color(0xFFf5576c)],
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ListaEsercentiScreen(),
+                  ),
+                );
+              },
+            ),
                           ],
                         ),
                         const SizedBox(height: 16),
-                        _buildWideActionCard(
-                          icon: Icons.local_offer,
-                          label: 'Promozioni Attive',
-                          subtitle: 'Scopri le offerte',
-                          colors: const [Color(0xFF4facfe), Color(0xFF00f2fe)],
-                          onTap: () {},
-                        ),
+            _buildWideActionCard(
+              icon: Icons.local_offer,
+              label: 'Promozioni Attive',
+              subtitle: 'Scopri le offerte',
+              colors: const [Color(0xFF4facfe), Color(0xFF00f2fe)],
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PromozioniClienteScreen(),
+                  ),
+                );
+              },
+            ),
                       ],
                     ),
                   ),
@@ -321,22 +354,33 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: colors,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: colors.first.withOpacity(0.4),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  colors.first.withOpacity(0.3),
+                  colors.last.withOpacity(0.2),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colors.first.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-          ],
-        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -373,23 +417,34 @@ class _WalletModernScreenState extends State<WalletModernScreen> with SingleTick
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: colors,
-          ),
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: colors.first.withOpacity(0.4),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  colors.first.withOpacity(0.3),
+                  colors.last.withOpacity(0.2),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: colors.first.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-          ],
-        ),
         child: Row(
           children: [
             Container(
