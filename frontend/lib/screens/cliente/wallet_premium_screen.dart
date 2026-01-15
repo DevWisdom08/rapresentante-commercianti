@@ -126,7 +126,7 @@ class _WalletPremiumScreenState extends State<WalletPremiumScreen> {
                             child: _buildCleanActionCard(
                               icon: Icons.history,
                               label: 'Storico',
-                              color: const Color(0xFF5B7FFF),
+                              color: const Color(0xFF009246), // Italian green
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -142,7 +142,7 @@ class _WalletPremiumScreenState extends State<WalletPremiumScreen> {
                             child: _buildCleanActionCard(
                               icon: Icons.store,
                               label: 'Negozi',
-                              color: const Color(0xFFFF6B9D),
+                              color: const Color(0xFFCE2B37), // Italian red
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -156,12 +156,12 @@ class _WalletPremiumScreenState extends State<WalletPremiumScreen> {
                         ],
                       ),
                       const SizedBox(height: 12),
-                      _buildCleanWideCard(
-                        icon: Icons.local_offer,
-                        label: 'Promozioni Attive',
-                        subtitle: 'Scopri le offerte della zona',
-                        color: const Color(0xFF00D9FF),
-                        onTap: () {
+                        _buildCleanWideCard(
+                          icon: Icons.local_offer,
+                          label: 'Promozioni Attive',
+                          subtitle: 'Scopri le offerte della zona',
+                          color: Colors.white,
+                          onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
