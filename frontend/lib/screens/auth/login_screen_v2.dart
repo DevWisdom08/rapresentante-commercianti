@@ -18,9 +18,21 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isLoading = false;
+  List<String> _emailSuggestions = [];
+  bool _showSuggestions = false;
 
   late AnimationController _floatingController;
   late AnimationController _glowController;
+
+  // Email comuni per quick login
+  final List<String> _commonEmails = [
+    'mario.rossi@test.it',
+    'laura.bianchi@test.it',
+    'panificio@test.it',
+    'abbigliamento@test.it',
+    'rappresentante.milano@rapresentante.it',
+    'admin@rapresentante.it',
+  ];
 
   @override
   void initState() {
@@ -83,15 +95,15 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF0F0C29),
-              Color(0xFF302B63),
-              Color(0xFF24243E),
+              Color(0xFF0a0e27), // Deep navy
+              Color(0xFF1a1f3a), // Dark blue
+              Color(0xFF0f1419), // Almost black
             ],
           ),
         ),
         child: Stack(
           children: [
-            // Animated background circles
+            // Animated background circles with harmonious colors
             ...List.generate(3, (index) {
               return AnimatedBuilder(
                 animation: _floatingController,
@@ -101,14 +113,17 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                     top: 100 + offset,
                     left: 50.0 * index,
                     child: Container(
-                      width: 200,
-                      height: 200,
+                      width: 250,
+                      height: 250,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: RadialGradient(
                           colors: [
-                            [Color(0xFF6366F1), Color(0xFFFFD700), Color(0xFF14B8A6)][index]
-                                .withOpacity(0.1),
+                            [
+                              const Color(0xFFFF6B35), // Orange
+                              const Color(0xFFFFA500), // Gold
+                              const Color(0xFFFF8C42), // Warm orange
+                            ][index].withOpacity(0.08),
                             Colors.transparent,
                           ],
                         ),
@@ -129,34 +144,14 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Logo with glow
-                        AnimatedBuilder(
-                          animation: _glowController,
-                          builder: (context, child) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFFFFD700).withOpacity(0.5 + _glowController.value * 0.3),
-                                    blurRadius: 40 + _glowController.value * 20,
-                                    spreadRadius: 5,
-                                  ),
-                                ],
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.asset(
-                                  'assets/images/logo.png',
-                                  width: 180,
-                                  height: 180,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            );
-                          },
+                        // Logo - Clear display
+                        Image.asset(
+                          'assets/images/logo.png',
+                          width: 300,
+                          height: 220,
+                          fit: BoxFit.contain,
                         ),
-                        const SizedBox(height: 24),
+                        const SizedBox(height: 8),
 
                         // Branding
                         ShaderMask(
@@ -207,7 +202,7 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                         ),
                         const SizedBox(height: 48),
 
-                        // Glass Login Card
+                        // Glass Login Card - No visible border
                         ClipRRect(
                           borderRadius: BorderRadius.circular(24),
                           child: BackdropFilter(
@@ -215,12 +210,8 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                             child: Container(
                               padding: const EdgeInsets.all(24),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.05),
+                                color: const Color(0xFF1a1f3a).withOpacity(0.4),
                                 borderRadius: BorderRadius.circular(24),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.1),
-                                  width: 1.5,
-                                ),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black.withOpacity(0.3),
@@ -231,25 +222,105 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                               ),
                               child: Column(
                                 children: [
-                                  // Email field
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
-                                    child: TextFormField(
-                                      controller: _emailController,
-                                      keyboardType: TextInputType.emailAddress,
-                                      style: const TextStyle(color: Colors.black87),
-                                      decoration: const InputDecoration(
-                                        labelText: 'Email',
-                                        labelStyle: TextStyle(color: Colors.black54),
-                                        prefixIcon: Icon(Icons.email, color: Colors.black54),
-                                        border: InputBorder.none,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                  // Email field with suggestions
+                                  Column(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.9),
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                        child: TextFormField(
+                                          controller: _emailController,
+                                          keyboardType: TextInputType.emailAddress,
+                                          style: const TextStyle(color: Colors.black87),
+                                          decoration: const InputDecoration(
+                                            labelText: 'Email',
+                                            labelStyle: TextStyle(color: Colors.black54),
+                                            prefixIcon: Icon(Icons.email, color: Colors.black54),
+                                            border: InputBorder.none,
+                                            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                          ),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              if (value.length >= 2) {
+                                                _emailSuggestions = _commonEmails
+                                                    .where((email) => email.toLowerCase().contains(value.toLowerCase()))
+                                                    .toList();
+                                                _showSuggestions = _emailSuggestions.isNotEmpty;
+                                              } else {
+                                                _showSuggestions = false;
+                                              }
+                                            });
+                                          },
+                                          onTap: () {
+                                            if (_emailController.text.isEmpty) {
+                                              setState(() {
+                                                _emailSuggestions = _commonEmails;
+                                                _showSuggestions = true;
+                                              });
+                                            }
+                                          },
+                                          validator: (v) => v == null || v.isEmpty ? 'Email richiesta' : null,
+                                        ),
                                       ),
-                                      validator: (v) => v == null || v.isEmpty ? 'Email richiesta' : null,
-                                    ),
+                                      
+                                      // Suggestions dropdown
+                                      if (_showSuggestions && _emailSuggestions.isNotEmpty)
+                                        Container(
+                                          margin: const EdgeInsets.only(top: 8),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white.withOpacity(0.95),
+                                            borderRadius: BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black.withOpacity(0.2),
+                                                blurRadius: 10,
+                                                offset: const Offset(0, 4),
+                                              ),
+                                            ],
+                                          ),
+                                          child: Column(
+                                            children: _emailSuggestions.take(5).map((email) {
+                                              return InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _emailController.text = email;
+                                                    _showSuggestions = false;
+                                                  });
+                                                },
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                                  decoration: BoxDecoration(
+                                                    border: Border(
+                                                      bottom: BorderSide(
+                                                        color: Colors.grey.withOpacity(0.2),
+                                                        width: 0.5,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const Icon(Icons.person, size: 18, color: Colors.black54),
+                                                      const SizedBox(width: 12),
+                                                      Expanded(
+                                                        child: Text(
+                                                          email,
+                                                          style: const TextStyle(
+                                                            color: Colors.black87,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const Icon(Icons.arrow_forward, size: 16, color: Colors.black38),
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                   const SizedBox(height: 16),
 
@@ -282,7 +353,7 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                                   ),
                                   const SizedBox(height: 24),
 
-                                  // Login button - TRANSPARENT with gradient border
+                                  // Login button - Clean transparent
                                   Container(
                                     width: double.infinity,
                                     height: 56,
@@ -294,15 +365,11 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                                         ],
                                       ),
                                       borderRadius: BorderRadius.circular(16),
-                                      border: Border.all(
-                                        width: 2,
-                                        color: Colors.white.withOpacity(0.3),
-                                      ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: const Color(0xFF667eea).withOpacity(0.3),
-                                          blurRadius: 20,
-                                          offset: const Offset(0, 10),
+                                          color: Colors.black.withOpacity(0.3),
+                                          blurRadius: 15,
+                                          offset: const Offset(0, 8),
                                         ),
                                       ],
                                     ),
@@ -365,4 +432,5 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
     );
   }
 }
+
 
