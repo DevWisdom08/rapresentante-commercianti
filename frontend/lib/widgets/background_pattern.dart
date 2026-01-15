@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'dart:ui';
 
 /// Background with animated pattern
 class BackgroundPattern extends StatefulWidget {
