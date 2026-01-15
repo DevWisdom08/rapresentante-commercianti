@@ -95,9 +95,9 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF0a0e27), // Deep navy
-              Color(0xFF1a1f3a), // Dark blue
-              Color(0xFF0f1419), // Almost black
+              Color(0xFF004D2C), // Dark Italian green
+              Color(0xFF1A2E1F), // Deep forest
+              Color(0xFF0F1A14), // Almost black with green tint
             ],
           ),
         ),
@@ -120,10 +120,10 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                         gradient: RadialGradient(
                           colors: [
                             [
-                              const Color(0xFFFF6B35), // Orange
-                              const Color(0xFFFFA500), // Gold
-                              const Color(0xFFFF8C42), // Warm orange
-                            ][index].withOpacity(0.08),
+                              const Color(0xFF009246), // Italian green
+                              const Color(0xFFCE2B37), // Italian red
+                              const Color(0xFFFFFFFF), // White
+                            ][index].withOpacity(0.06),
                             Colors.transparent,
                           ],
                         ),
@@ -171,7 +171,11 @@ class _LoginScreenV2State extends State<LoginScreenV2> with TickerProviderStateM
                         const SizedBox(height: 8),
                         ShaderMask(
                           shaderCallback: (bounds) => const LinearGradient(
-                            colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+                            colors: [
+                              Color(0xFF009246), // Italian green
+                              Color(0xFFFFFFFF), // White
+                              Color(0xFFCE2B37), // Italian red
+                            ],
                           ).createShader(bounds),
                           child: const Text(
                             'SOTTOCASA',
