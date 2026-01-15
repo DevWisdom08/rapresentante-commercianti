@@ -67,7 +67,8 @@ class _HomeClienteState extends State<HomeCliente> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('PORTAFOGLIO VIRTUALE'),
-        backgroundColor: AppTheme.primario,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
             icon: const Icon(Icons.qr_code),
