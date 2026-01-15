@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'config/theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/wallet_provider.dart';
-import 'screens/auth/login_screen_v2.dart';
+import 'screens/auth/login_screen_italian.dart';
 import 'screens/auth/registrazione_screen.dart';
 import 'screens/auth/verifica_otp_screen.dart';
-import 'screens/cliente/wallet_premium_screen.dart';
+import 'screens/cliente/wallet_italian_theme.dart';
 import 'screens/esercente/home_esercente.dart';
 import 'screens/rappresentante/dashboard_rappresentante.dart';
 import 'screens/centrale/dashboard_centrale.dart';
@@ -32,18 +32,18 @@ class RapresentanteApp extends StatelessWidget {
           return MaterialApp(
             title: 'Rapresentante Commercianti',
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.dark,
-      darkTheme: AppTheme.dark,
-      themeMode: ThemeMode.dark,
+            theme: AppTheme.light,
+      darkTheme: AppTheme.light,
+      themeMode: ThemeMode.light,
             
             // Routing basato su stato autenticazione
             home: _buildHomeScreen(authProvider),
             
             routes: {
-              '/login': (context) => const LoginScreenV2(),
+              '/login': (context) => const LoginScreenItalian(),
               '/registrazione': (context) => const RegistrazioneScreen(),
               '/verifica-otp': (context) => const VerificaOtpScreen(),
-              '/home-cliente': (context) => const WalletPremiumScreen(),
+              '/home-cliente': (context) => const WalletItalianTheme(),
               '/home-esercente': (context) => const HomeEsercente(),
               '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
               '/dashboard-centrale': (context) => const DashboardCentrale(),
@@ -65,13 +65,13 @@ class RapresentanteApp extends StatelessWidget {
     }
 
     if (!authProvider.isAuthenticated) {
-      return const LoginScreenV2();
+        return const LoginScreenItalian();
     }
 
     // Routing basato su ruolo utente
     switch (authProvider.user?.ruolo) {
       case 'cliente':
-        return const WalletPremiumScreen();
+        return const WalletItalianTheme();
       case 'esercente':
         return const HomeEsercente();
       case 'rappresentante':
@@ -79,7 +79,7 @@ class RapresentanteApp extends StatelessWidget {
       case 'centrale':
         return const DashboardCentrale();
       default:
-        return const LoginScreenV2();
+        return const LoginScreenItalian();
     }
   }
 }

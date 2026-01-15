@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 
 /// Tema dell'applicazione
 class AppTheme {
-  // Colori brand - Modern Premium Theme
-  static const Color primario = Color(0xFF6366F1); // Modern Indigo
-  static const Color primarioScuro = Color(0xFF4338CA);
-  static const Color secondario = Color(0xFF14B8A6); // Teal  
-  static const Color errore = Color(0xFFEF4444); // Rosso
-  static const Color warning = Color(0xFFFBBF24); // Gold
-  static const Color success = Color(0xFF10B981); // Verde
-  static const Color successLight = Color(0xFF6EE7B7);
-  static const Color info = Color(0xFF3B82F6); // Blu
-  static const Color gold = Color(0xFFFFD700);
-  static const Color goldDark = Color(0xFFFFA500);
+  // Colori brand - Italian Flag Theme
+  static const Color primario = Color(0xFF009246); // Italian green (main)
+  static const Color primarioScuro = Color(0xFF007236);
+  static const Color secondario = Color(0xFFCE2B37); // Italian red
+  static const Color errore = Color(0xFFCE2B37); // Italian red
+  static const Color warning = Color(0xFFFFA500); // Orange
+  static const Color success = Color(0xFF009246); // Italian green
+  static const Color successLight = Color(0xFF4CAF50);
+  static const Color info = Color(0xFF2196F3); // Blue
+  static const Color white = Color(0xFFFFFFFF); // Italian white
+  static const Color lightBg = Color(0xFFF5F7FA); // Light grey background
+  static const Color cardBg = Color(0xFFFFFFFF); // White cards
   
   // Gradienti
   static const LinearGradient gradientPrimario = LinearGradient(
@@ -44,6 +45,28 @@ class AppTheme {
   static const Color darkBg = Color(0xFF0F172A); // Deep dark blue
   static const Color darkCard = Color(0xFF1E293B);
   static const Color darkCardLight = Color(0xFF334155);
+  
+  /// Tema chiaro (Italian theme)
+  static ThemeData get light {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: primario,
+        primary: primario,
+        secondary: secondario,
+        error: errore,
+        brightness: Brightness.light,
+      ),
+      scaffoldBackgroundColor: lightBg,
+      appBarTheme: const AppBarTheme(
+        backgroundColor: primario,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+      ),
+    );
+  }
   
   /// Tema scuro moderno (default)
   static ThemeData get dark {
