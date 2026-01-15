@@ -85,10 +85,14 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       
-      // Costruisci email completa
+      // Costruisci email completa con dominio basato su ruolo
       String emailCompleta = _emailController.text.trim();
       if (!emailCompleta.contains('@')) {
-        emailCompleta = emailCompleta + '@rapresentante.it';
+        // Applica dominio in base al tipo di account
+        final dominio = _ruolo == 'cliente' 
+            ? '@sottocasa.it' 
+            : '@esercenti.sottocasa.it';
+        emailCompleta = emailCompleta + dominio;
       }
       
       final result = await authProvider.registrazione(
@@ -316,7 +320,7 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8, top: 16),
                       child: Text(
-                        '@rapresentante.it',
+                        _ruolo == 'cliente' ? '@sottocasa.it' : '@esercenti.sottocasa.it',
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: AppTheme.grigio500,
                         ),

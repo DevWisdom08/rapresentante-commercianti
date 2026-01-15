@@ -65,7 +65,8 @@ class _HomeClienteState extends State<HomeCliente> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Il Mio Wallet'),
+        title: const Text('CO-STORIES® SOTTOCASA'),
+        backgroundColor: AppTheme.primario,
         actions: [
           IconButton(
             icon: const Icon(Icons.qr_code),

@@ -19,7 +19,8 @@ return [
     'limite_max_punti_transazione' => (float) env('LIMITE_MAX_PUNTI_TRANSAZIONE', 500.00),
     'tasso_cambio_punti_euro' => (float) env('TASSO_CAMBIO_PUNTI_EURO', 1.00),
     'euro_per_punto' => (float) env('EURO_PER_PUNTO', 10.00), // Quanti euro spesi per 1 punto
-    'dominio_email_default' => env('DOMINIO_EMAIL_DEFAULT', '@rapresentante.it'),
+    'dominio_email_cliente' => env('DOMINIO_EMAIL_CLIENTE', '@sottocasa.it'),
+    'dominio_email_esercente' => env('DOMINIO_EMAIL_ESERCENTE', '@esercenti.sottocasa.it'),
 
     'providers' => [
         Illuminate\Auth\AuthServiceProvider::class,
