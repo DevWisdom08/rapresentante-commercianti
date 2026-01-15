@@ -7,6 +7,7 @@ import 'storico_transazioni_screen.dart';
 import 'lista_esercenti_screen.dart';
 import 'qr_code_screen.dart';
 import 'promozioni_cliente_screen.dart';
+import '../../widgets/gradient_background.dart';
 
 /// Home Cliente con wallet e funzionalità base
 class HomeCliente extends StatefulWidget {
