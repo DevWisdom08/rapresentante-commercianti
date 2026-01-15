@@ -43,7 +43,7 @@ class RapresentanteApp extends StatelessWidget {
               '/login': (context) => const LoginScreen(),
               '/registrazione': (context) => const RegistrazioneScreen(),
               '/verifica-otp': (context) => const VerificaOtpScreen(),
-              '/home-cliente': (context) => const HomeCliente(),
+              '/home-cliente': (context) => const HomeClienteV2(),
               '/home-esercente': (context) => const HomeEsercente(),
               '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
               '/dashboard-centrale': (context) => const DashboardCentrale(),
