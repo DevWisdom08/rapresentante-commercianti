@@ -7,7 +7,7 @@ import 'providers/wallet_provider.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/registrazione_screen.dart';
 import 'screens/auth/verifica_otp_screen.dart';
-import 'screens/cliente/home_cliente.dart';
+import 'screens/cliente/home_cliente_v2.dart';
 import 'screens/esercente/home_esercente.dart';
 import 'screens/rappresentante/dashboard_rappresentante.dart';
 import 'screens/centrale/dashboard_centrale.dart';
@@ -71,7 +71,7 @@ class RapresentanteApp extends StatelessWidget {
     // Routing basato su ruolo utente
     switch (authProvider.user?.ruolo) {
       case 'cliente':
-        return const HomeCliente();
+        return const HomeClienteV2();
       case 'esercente':
         return const HomeEsercente();
       case 'rappresentante':
