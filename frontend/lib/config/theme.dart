@@ -2,13 +2,36 @@ import 'package:flutter/material.dart';
 
 /// Tema dell'applicazione
 class AppTheme {
-  // Colori brand
-  static const Color primario = Color(0xFF2563EB); // Blu
-  static const Color secondario = Color(0xFF10B981); // Verde
+  // Colori brand - Modern Premium Theme
+  static const Color primario = Color(0xFF6366F1); // Modern Indigo
+  static const Color primarioScuro = Color(0xFF4338CA);
+  static const Color secondario = Color(0xFF14B8A6); // Teal  
   static const Color errore = Color(0xFFEF4444); // Rosso
-  static const Color warning = Color(0xFFF59E0B); // Arancione
+  static const Color warning = Color(0xFFFBBF24); // Gold
   static const Color success = Color(0xFF10B981); // Verde
-  static const Color info = Color(0xFF3B82F6); // Blu chiaro
+  static const Color successLight = Color(0xFF6EE7B7);
+  static const Color info = Color(0xFF3B82F6); // Blu
+  static const Color gold = Color(0xFFFFD700);
+  static const Color goldDark = Color(0xFFFFA500);
+  
+  // Gradienti
+  static const LinearGradient gradientPrimario = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF6366F1), Color(0xFF8B5CF6), Color(0xFF4338CA)],
+  );
+  
+  static const LinearGradient gradientGold = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0xFFFFD700), Color(0xFFFFA500)],
+  );
+  
+  static const LinearGradient gradientSuccess = LinearGradient(
+    begin: Alignment.topLeft,  
+    end: Alignment.bottomRight,
+    colors: [Color(0xFF10B981), Color(0xFF6EE7B7)],
+  );
 
   // Grigi
   static const Color grigio100 = Color(0xFFF3F4F6);

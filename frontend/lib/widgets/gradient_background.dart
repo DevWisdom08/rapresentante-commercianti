@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import '../config/theme.dart';
 
-/// Background gradiente moderno per schermate
+/// Background con gradiente moderno
 class GradientBackground extends StatelessWidget {
   final Widget child;
-  final bool showPattern;
+  final List<Color>? colors;
 
   const GradientBackground({
     super.key,
     required this.child,
-    this.showPattern = true,
+    this.colors,
   });
 
   @override
@@ -19,70 +19,64 @@ class GradientBackground extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppTheme.primario.withOpacity(0.05),
-            AppTheme.primarioChiaro.withOpacity(0.03),
-            Colors.white,
+          colors: colors ?? [
+            AppTheme.primario,
+            AppTheme.primarioScuro,
+            const Color(0xFF312E81),
           ],
-          stops: const [0.0, 0.3, 1.0],
         ),
       ),
-      child: showPattern
-          ? Stack(
-              children: [
-                // Pattern decorativo
-                Positioned(
-                  top: -100,
-                  right: -100,
-                  child: Container(
-                    width: 300,
-                    height: 300,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          AppTheme.accent.withOpacity(0.1),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: -50,
-                  left: -50,
-                  child: Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          AppTheme.primario.withOpacity(0.08),
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                child,
-              ],
-            )
-          : child,
+      child: child,
     );
   }
 }
 
-/// Card con glassmorphism effect
+/// Card con effetto glassmorphism
 class GlassCard extends StatelessWidget {
   final Widget child;
-  final Color? color;
-  final EdgeInsets? padding;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
 
   const GlassCard({
     super.key,
     required this.child,
-    this.color,
+    this.padding,
+    this.margin,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: margin,
+      padding: padding ?? const EdgeInsets.all(AppTheme.spacingL),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(AppTheme.radiusL),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1.5,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+/// Card con gradiente gold
+class GoldCard extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
+
+  const GoldCard({
+    super.key,
+    required this.child,
     this.padding,
   });
 
@@ -91,14 +85,21 @@ class GlassCard extends StatelessWidget {
     return Container(
       padding: padding ?? const EdgeInsets.all(AppTheme.spacingL),
       decoration: BoxDecoration(
-        color: color ?? Colors.white,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFFFFD700),
+            Color(0xFFFFA500),
+            Color(0xFFFF8C00),
+          ],
+        ),
         borderRadius: BorderRadius.circular(AppTheme.radiusL),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.primario.withOpacity(0.08),
+            color: AppTheme.gold.withOpacity(0.3),
             blurRadius: 20,
-            offset: const Offset(0, 4),
-            spreadRadius: 2,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
