@@ -80,15 +80,33 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: AppTheme.spacingM),
                   
                   Text(
-                    'Rapresentante\nCommercianti',
+                    'CO-STORIES®',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: AppTheme.primario,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                  Text(
+                    'SOTTOCASA',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.displaySmall?.copyWith(
                       color: AppTheme.primario,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 3,
                     ),
                   ),
                   const SizedBox(height: AppTheme.spacingXs),
-                  
+                  Text(
+                    'di Plural sas di Marco Diotallevi',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: AppTheme.grigio500,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
                   Text(
                     'Commercio di prossimità',
                     textAlign: TextAlign.center,
