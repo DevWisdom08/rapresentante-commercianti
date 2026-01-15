@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'config/theme.dart';
 import 'providers/auth_provider.dart';
 import 'providers/wallet_provider.dart';
-import 'screens/auth/login_screen.dart';
+import 'screens/auth/login_screen_v2.dart';
 import 'screens/auth/registrazione_screen.dart';
 import 'screens/auth/verifica_otp_screen.dart';
-import 'screens/cliente/home_cliente_v2.dart';
+import 'screens/cliente/wallet_modern_screen.dart';
 import 'screens/esercente/home_esercente.dart';
 import 'screens/rappresentante/dashboard_rappresentante.dart';
 import 'screens/centrale/dashboard_centrale.dart';
@@ -40,10 +40,10 @@ class RapresentanteApp extends StatelessWidget {
             home: _buildHomeScreen(authProvider),
             
             routes: {
-              '/login': (context) => const LoginScreen(),
+              '/login': (context) => const LoginScreenV2(),
               '/registrazione': (context) => const RegistrazioneScreen(),
               '/verifica-otp': (context) => const VerificaOtpScreen(),
-              '/home-cliente': (context) => const HomeClienteV2(),
+              '/home-cliente': (context) => const WalletModernScreen(),
               '/home-esercente': (context) => const HomeEsercente(),
               '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
               '/dashboard-centrale': (context) => const DashboardCentrale(),
@@ -65,13 +65,13 @@ class RapresentanteApp extends StatelessWidget {
     }
 
     if (!authProvider.isAuthenticated) {
-      return const LoginScreen();
+      return const LoginScreenV2();
     }
 
     // Routing basato su ruolo utente
     switch (authProvider.user?.ruolo) {
       case 'cliente':
-        return const HomeClienteV2();
+        return const WalletModernScreen();
       case 'esercente':
         return const HomeEsercente();
       case 'rappresentante':
@@ -79,7 +79,7 @@ class RapresentanteApp extends StatelessWidget {
       case 'centrale':
         return const DashboardCentrale();
       default:
-        return const LoginScreen();
+        return const LoginScreenV2();
     }
   }
 }
