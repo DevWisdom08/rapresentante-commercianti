@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Commercio di prossimità',
+                    'Il tuo portafoglio virtuale di quartiere',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: AppTheme.grigio500,

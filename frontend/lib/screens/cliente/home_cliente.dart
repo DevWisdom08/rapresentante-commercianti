@@ -65,7 +65,7 @@ class _HomeClienteState extends State<HomeCliente> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CO-STORIES® SOTTOCASA'),
+        title: const Text('PORTAFOGLIO VIRTUALE'),
         backgroundColor: AppTheme.primario,
         actions: [
           IconButton(

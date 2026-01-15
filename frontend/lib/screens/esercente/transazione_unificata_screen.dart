@@ -537,18 +537,18 @@ class _CategoriaDialogState extends State<_CategoriaDialog> {
             ),
           ),
           const SizedBox(height: AppTheme.spacingM),
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppTheme.success.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Sconto Max:'),
-                Text(
-                  '$_percentualeDefault%',
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppTheme.success.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Vendibile in Punti/Moneta:'),
+                  Text(
+                    '$_percentualeDefault%',
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
