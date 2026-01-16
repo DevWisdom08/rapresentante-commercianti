@@ -38,6 +38,8 @@ class Esercente extends Model
         'logo_url',
         'foto_negozio',
         'attivo',
+        'approvato',
+        'data_approvazione',
         'data_adesione'
     ];
 

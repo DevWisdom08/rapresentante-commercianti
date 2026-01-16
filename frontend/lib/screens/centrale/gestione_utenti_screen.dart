@@ -78,6 +78,25 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
     }
   }
 
+  Future<void> _approvaEsercente(int userId) async {
+    try {
+      await _apiService.post('/centrale/utenti/$userId/approva');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Esercente approvato! Può ora accedere.'),
+          backgroundColor: Colors.blue,
+        ),
+      );
+      _loadUtenti();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
   Future<void> _eliminaUtente(int userId, String nome) async {
     // Conferma
     final confirm = await showDialog<bool>(
@@ -194,6 +213,18 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
                           isThreeLine: true,
                           trailing: PopupMenuButton(
                             itemBuilder: (context) => [
+                              // Approvazione (solo esercenti)
+                              if (utente['ruolo'] == 'esercente' && utente['approvato'] == false)
+                                PopupMenuItem(
+                                  onTap: () => _approvaEsercente(utente['id']),
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.verified, size: 18, color: Colors.blue),
+                                      SizedBox(width: 8),
+                                      Text('Approva Esercente'),
+                                    ],
+                                  ),
+                                ),
                               if (!utente['attivo'])
                                 PopupMenuItem(
                                   onTap: () => _attivaUtente(utente['id']),
