@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Transazione;
+use App\Models\Esercente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -139,6 +140,17 @@ class AuthController extends Controller
                     'user_agent' => $request->userAgent()
                 ]);
             }
+            
+            // Crea profilo esercente (se esercente)
+            if ($user->ruolo === 'esercente') {
+                Esercente::create([
+                    'user_id' => $user->id,
+                    'nome_negozio' => $request->nome . ' ' . $request->cognome,
+                    'categoria' => 'generale',
+                    'indirizzo' => 'Da completare',
+                    'approvato' => false, // Richiede approvazione!
+                ]);
+            }
         }
 
         // Genera token e login automatico
@@ -247,6 +259,19 @@ class AuthController extends Controller
 
         if (!$user->attivo) {
             return $this->errorResponse('Account disattivato', 'ACCOUNT_DISABLED', null, 403);
+        }
+
+        // Se esercente, verifica approvazione
+        if ($user->ruolo === 'esercente') {
+            $esercente = $user->esercente;
+            if ($esercente && !$esercente->approvato) {
+                return $this->errorResponse(
+                    'Account in attesa di approvazione da parte dell\'amministratore',
+                    'PENDING_APPROVAL',
+                    null,
+                    403
+                );
+            }
         }
 
         // Aggiorna ultimo accesso
