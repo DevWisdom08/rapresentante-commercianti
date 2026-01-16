@@ -72,70 +72,72 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
               fit: BoxFit.cover,
             ),
           ),
-          // Dark overlay for readability
-          Positioned.fill(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.1),
-                    Colors.black.withOpacity(0.3),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Content
-          SafeArea(
-            child: Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
-                child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 60),
-                  
-                  // Logo - positioned higher
-                  Image.asset(
-                    'assets/images/logo.png',
-                    width: 220,
-                    height: 160,
-                    fit: BoxFit.contain,
-                  ),
-                  const SizedBox(height: 80),
+           // Light overlay for brightness
+           Positioned.fill(
+             child: Container(
+               decoration: BoxDecoration(
+                 gradient: LinearGradient(
+                   begin: Alignment.topCenter,
+                   end: Alignment.bottomCenter,
+                   colors: [
+                     Colors.black.withOpacity(0.1),
+                     Colors.black.withOpacity(0.2),
+                   ],
+                 ),
+               ),
+             ),
+           ),
+           // Logo at absolute top
+           Positioned(
+             top: 50,
+             left: 0,
+             right: 0,
+             child: Center(
+               child: Image.asset(
+                 'assets/images/logo.png',
+                 width: 200,
+                 height: 140,
+                 fit: BoxFit.contain,
+               ),
+             ),
+           ),
+           
+           // Content - form at bottom
+           SafeArea(
+             child: Align(
+               alignment: Alignment.bottomCenter,
+               child: SingleChildScrollView(
+                 padding: const EdgeInsets.all(24),
+                 child: Form(
+               key: _formKey,
+               child: Column(
+                 mainAxisSize: MainAxisSize.min,
+                 children: [
 
                   // Email field with suggestions
                   Column(
                     children: [
-                      TextFormField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                          labelText: 'Email',
-                          labelStyle: const TextStyle(color: Colors.white70),
-                          hintText: 'mario.rossi@test.it',
-                          hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
-                          prefixIcon: const Icon(Icons.email, color: Colors.white70),
-                          filled: true,
-                          fillColor: Colors.white.withOpacity(0.1),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            borderSide: BorderSide(color: AppTheme.primario.withOpacity(0.5), width: 2),
-                          ),
-                        ),
+                       TextFormField(
+                         controller: _emailController,
+                         keyboardType: TextInputType.emailAddress,
+                         style: const TextStyle(color: Colors.white),
+                         decoration: InputDecoration(
+                           labelText: 'Email',
+                           labelStyle: const TextStyle(color: Colors.white70),
+                           hintText: 'mario.rossi@test.it',
+                           hintStyle: TextStyle(color: Colors.white.withOpacity(0.3)),
+                           prefixIcon: const Icon(Icons.email, color: Colors.white70),
+                           filled: true,
+                           fillColor: Colors.white.withOpacity(0.15),
+                           border: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(16),
+                             borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+                           ),
+                           enabledBorder: OutlineInputBorder(
+                             borderRadius: BorderRadius.circular(16),
+                             borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+                           ),
+                         ),
                         onChanged: (value) {
                           setState(() {
                             if (value.length >= 2) {
@@ -195,75 +197,64 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Password
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscurePassword,
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: const TextStyle(color: Colors.white70),
-                      prefixIcon: const Icon(Icons.lock, color: Colors.white70),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
-                          color: Colors.white70,
-                        ),
-                        onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.1),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: Colors.white.withOpacity(0.2)),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
-                        borderSide: BorderSide(color: AppTheme.primario.withOpacity(0.5), width: 2),
-                      ),
-                    ),
-                    validator: (v) => v == null || v.isEmpty ? 'Password richiesta' : null,
-                  ),
+                   // Password
+                   TextFormField(
+                     controller: _passwordController,
+                     obscureText: _obscurePassword,
+                     style: const TextStyle(color: Colors.white),
+                     decoration: InputDecoration(
+                       labelText: 'Password',
+                       labelStyle: const TextStyle(color: Colors.white70),
+                       prefixIcon: const Icon(Icons.lock, color: Colors.white70),
+                       suffixIcon: IconButton(
+                         icon: Icon(
+                           _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                           color: Colors.white70,
+                         ),
+                         onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                       ),
+                       filled: true,
+                       fillColor: Colors.white.withOpacity(0.15),
+                       border: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(16),
+                         borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+                       ),
+                       enabledBorder: OutlineInputBorder(
+                         borderRadius: BorderRadius.circular(16),
+                         borderSide: BorderSide(color: Colors.white.withOpacity(0.3)),
+                       ),
+                     ),
+                     validator: (v) => v == null || v.isEmpty ? 'Password richiesta' : null,
+                   ),
                   const SizedBox(height: 24),
 
-                  // Login button - Transparent gradient
-                  Container(
-                    width: double.infinity,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          AppTheme.primario.withOpacity(0.4),
-                          AppTheme.primario.withOpacity(0.2),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: AppTheme.primario.withOpacity(0.5),
-                        width: 2,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.primario.withOpacity(0.3),
-                          blurRadius: 15,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: ElevatedButton(
-                      onPressed: _isLoading ? null : _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
+                   // Login button - Transparent green gradient
+                   Container(
+                     width: double.infinity,
+                     height: 56,
+                     decoration: BoxDecoration(
+                       gradient: LinearGradient(
+                         colors: [
+                           AppTheme.primario.withOpacity(0.5),
+                           AppTheme.primario.withOpacity(0.3),
+                         ],
+                       ),
+                       borderRadius: BorderRadius.circular(16),
+                       border: Border.all(
+                         color: AppTheme.primario.withOpacity(0.6),
+                         width: 2,
+                       ),
+                     ),
+                     child: ElevatedButton(
+                       onPressed: _isLoading ? null : _handleLogin,
+                       style: ElevatedButton.styleFrom(
+                         backgroundColor: Colors.transparent,
+                         shadowColor: Colors.transparent,
+                         foregroundColor: Colors.white,
+                         shape: RoundedRectangleBorder(
+                           borderRadius: BorderRadius.circular(16),
+                         ),
+                       ),
                       child: _isLoading
                           ? const SizedBox(
                               width: 24,
@@ -285,18 +276,18 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
                   ),
                   const SizedBox(height: 16),
 
-                  // Register link
-                  TextButton(
-                    onPressed: () => Navigator.pushNamed(context, '/registrazione'),
-                    child: const Text(
-                      'Non hai un account? Registrati',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                   // Register link
+                   TextButton(
+                     onPressed: () => Navigator.pushNamed(context, '/registrazione'),
+                     child: const Text(
+                       'Non hai un account? Registrati',
+                       style: TextStyle(
+                         color: Colors.white,
+                         fontSize: 14,
+                         fontWeight: FontWeight.w600,
+                       ),
+                     ),
+                   ),
                 ],
               ),
             ),

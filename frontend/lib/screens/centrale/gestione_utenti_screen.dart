@@ -77,6 +77,47 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
     }
   }
 
+  Future<void> _eliminaUtente(int userId, String nome) async {
+    // Conferma
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Conferma Eliminazione'),
+        content: Text('Sei sicuro di voler eliminare definitivamente $nome?\n\nQuesta azione è irreversibile!'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Annulla'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Elimina'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm != true) return;
+
+    try {
+      await _apiService.delete(ApiConfig.centraleEliminaUtente(userId));
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('✅ Utente eliminato definitivamente'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      _loadUtenti();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -140,13 +181,35 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
                               if (!utente['attivo'])
                                 PopupMenuItem(
                                   onTap: () => _attivaUtente(utente['id']),
-                                  child: const Text('Attiva'),
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.check_circle, size: 18, color: Colors.green),
+                                      SizedBox(width: 8),
+                                      Text('Attiva'),
+                                    ],
+                                  ),
                                 ),
                               if (utente['attivo'])
                                 PopupMenuItem(
                                   onTap: () => _disattivaUtente(utente['id']),
-                                  child: const Text('Disattiva'),
+                                  child: const Row(
+                                    children: [
+                                      Icon(Icons.block, size: 18, color: Colors.orange),
+                                      SizedBox(width: 8),
+                                      Text('Disattiva'),
+                                    ],
+                                  ),
                                 ),
+                              PopupMenuItem(
+                                onTap: () => _eliminaUtente(utente['id'], '${utente['nome']} ${utente['cognome']}'),
+                                child: const Row(
+                                  children: [
+                                    Icon(Icons.delete_forever, size: 18, color: Colors.red),
+                                    SizedBox(width: 8),
+                                    Text('Elimina', style: TextStyle(color: Colors.red)),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
