@@ -221,6 +221,7 @@ Route::prefix('v1')->group(function () {
         
         // Gestione utenti
         Route::get('/utenti', [CentraleController::class, 'getUtenti']);
+        Route::post('/crea-rappresentante', [CentraleController::class, 'creaRappresentante']);
         Route::post('/utenti/{id}/attiva', [CentraleController::class, 'attivaUtente']);
         Route::post('/utenti/{id}/disattiva', [CentraleController::class, 'disattivaUtente']);
         Route::delete('/utenti/{id}', [CentraleController::class, 'eliminaUtente']);

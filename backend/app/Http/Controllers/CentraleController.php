@@ -8,6 +8,7 @@ use App\Models\Rappresentante;
 use App\Models\Transazione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Controller per funzionalità Centrale (Admin)
