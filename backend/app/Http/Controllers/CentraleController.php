@@ -300,6 +300,39 @@ class CentraleController extends Controller
     }
 
     /**
+     * Approva Esercente
+     */
+    public function approvaEsercente(Request $request, int $id)
+    {
+        $currentUser = $request->user();
+
+        if (!$currentUser->isCentrale()) {
+            return $this->errorResponse('Solo admin', 'ROLE_NOT_ALLOWED', null, 403);
+        }
+
+        try {
+            $user = User::find($id);
+            
+            if (!$user || !$user->isEsercente()) {
+                return $this->errorResponse('Esercente non trovato', 'NOT_FOUND', null, 404);
+            }
+
+            $esercente = $user->esercente;
+            if ($esercente) {
+                $esercente->update([
+                    'approvato' => true,
+                    'data_approvazione' => now(),
+                ]);
+            }
+
+            return $this->successResponse(null, 'Esercente approvato con successo');
+
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 'APPROVAL_ERROR', null, 500);
+        }
+    }
+
+    /**
      * Crea nuovo Rappresentante
      */
     public function creaRappresentante(Request $request)
