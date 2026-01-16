@@ -56,8 +56,22 @@ class _CreaRappresentanteScreenState extends State<CreaRappresentanteScreen> {
       Navigator.pop(context, true);
     } catch (e) {
       if (!mounted) return;
+      
+      String errorMsg = e.toString().replaceAll('Exception: ', '');
+      
+      // Detailed error messages
+      if (errorMsg.contains('unique')) {
+        errorMsg = 'Email già in uso';
+      } else if (errorMsg.contains('min:8')) {
+        errorMsg = 'Password deve essere almeno 8 caratteri';
+      }
+      
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
+        SnackBar(
+          content: Text(errorMsg),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 4),
+        ),
       );
     } finally {
       if (mounted) {

@@ -334,8 +334,9 @@ class CentraleController extends Controller
 
             Rappresentante::create([
                 'user_id' => $user->id,
-                'zona' => 'Da assegnare',
-                'provincia' => '',
+                'nome_zona' => 'Da assegnare',
+                'provincia' => 'XX',
+                'data_nomina' => now()->toDateString(),
             ]);
 
             return $this->successResponse([
