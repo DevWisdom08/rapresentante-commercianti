@@ -11,7 +11,7 @@ class PromozioniScreen extends StatefulWidget {
 
 class _PromozioniScreenState extends State<PromozioniScreen> {
   bool _promoPrimiClientiAttiva = false;
-  int _promoPrimiClientiPercentuale = 50; // Doppio dello sconto normale
+  int _promoPrimiClientiPercentuale = 50; // Doppia percentuale pagabile con P/M
 
   final List<Map<String, dynamic>> _promozioni = [
     {

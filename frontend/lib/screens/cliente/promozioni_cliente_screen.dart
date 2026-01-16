@@ -13,7 +13,7 @@ class PromozioniClienteScreen extends StatefulWidget {
 class _PromozioniClienteScreenState extends State<PromozioniClienteScreen> {
   final _apiService = ApiService();
   List<Map<String, dynamic>> _promozioni = [];
-  String _ordinamento = 'nome'; // nome, sconto, categoria
+  String _ordinamento = 'nome'; // nome, percentuale, categoria
   bool _isLoading = true;
 
   @override
@@ -33,7 +33,7 @@ class _PromozioniClienteScreenState extends State<PromozioniClienteScreen> {
         {
           'esercente': 'Panificio del Centro',
           'categoria': 'Alimentari',
-          'tipo': 'Sconto 25%',
+          'tipo': '25% pagabile con P/M',
           'sconto_percentuale': 25,
           'descrizione': 'Sconto su tutti i prodotti da forno',
           'valido_fino': '31/01/2026',
@@ -98,7 +98,7 @@ class _PromozioniClienteScreenState extends State<PromozioniClienteScreen> {
                   child: SegmentedButton<String>(
                     segments: const [
                       ButtonSegment(value: 'nome', label: Text('Nome')),
-                      ButtonSegment(value: 'sconto', label: Text('Sconto')),
+                      ButtonSegment(value: 'sconto', label: Text('% P/M')),
                       ButtonSegment(value: 'categoria', label: Text('Categoria')),
                     ],
                     selected: {_ordinamento},

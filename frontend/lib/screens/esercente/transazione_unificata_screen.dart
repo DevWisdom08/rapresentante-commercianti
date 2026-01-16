@@ -4,7 +4,7 @@ import '../../services/api_service.dart';
 import '../../config/api_config.dart';
 import 'scanner_qr_screen.dart';
 
-/// Transazione Unificata - Usa sconto e genera nuovi punti
+/// Transazione Unificata - Cliente paga con P/M e genera nuovi punti
 class TransazioneUnificataScreen extends StatefulWidget {
   const TransazioneUnificataScreen({super.key});
 
