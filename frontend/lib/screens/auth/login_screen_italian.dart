@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/auth_provider.dart';
 import '../../config/theme.dart';
-import '../../config/api_config.dart';
 
 /// Login Screen - Italian Theme
 class LoginScreenItalian extends StatefulWidget {
@@ -27,34 +26,26 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
   @override
   void initState() {
     super.initState();
-    _loadAllUserEmails();
+    _loadRecentEmails();
   }
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _loadAllUserEmails() async {
+  Future<void> _loadRecentEmails() async {
     try {
-      // Load all user emails from database for autocomplete
-      final response = await http.get(
-        Uri.parse('${ApiConfig.baseUrl.replaceAll('/v1', '')}/v1/centrale/utenti?per_page=1000'),
-      );
+      final prefs = await SharedPreferences.getInstance();
+      final recent = prefs.getStringList('recent_emails') ?? [];
       
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        if (data['success'] == true) {
-          final users = data['data']['data'] as List;
-          setState(() {
-            _allUserEmails = users.map((u) => u['email'] as String).toList();
-          });
-        }
-      }
+      setState(() {
+        _allUserEmails = [
+          ...recent, // Recent logins first
+          // Then test accounts
+          'mario.rossi@test.it',
+          'panificio@test.it',
+          'rappresentante.milano@rapresentante.it',
+          'admin@rapresentante.it',
+        ].toSet().toList(); // Remove duplicates
+      });
     } catch (e) {
-      // Use fallback list if can't load
+      // Fallback
       setState(() {
         _allUserEmails = [
           'mario.rossi@test.it',
@@ -65,17 +56,42 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
     }
   }
 
+  Future<void> _saveRecentEmail(String email) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final recent = prefs.getStringList('recent_emails') ?? [];
+      
+      // Add to beginning, keep max 20
+      recent.remove(email); // Remove if exists
+      recent.insert(0, email); // Add to front
+      await prefs.setStringList('recent_emails', recent.take(20).toList());
+    } catch (e) {
+      // Ignore save errors
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> _handleLogin() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     try {
+      final email = _emailController.text.trim();
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.login(
-        email: _emailController.text.trim(),
+        email: email,
         password: _passwordController.text,
       );
+      
+      // Save successful login email for future autocomplete
+      await _saveRecentEmail(email);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -193,36 +209,41 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
                         validator: (v) => v == null || v.isEmpty ? 'Email richiesta' : null,
                       ),
                       
-                      // Suggestions
+                      // Suggestions - with higher elevation
                       if (_showSuggestions && _emailSuggestions.isNotEmpty)
-                        Container(
-                          margin: const EdgeInsets.only(top: 8),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: _emailSuggestions.take(5).map((email) {
-                              return ListTile(
-                                dense: true,
-                                leading: const Icon(Icons.person, size: 18, color: AppTheme.primario),
-                                title: Text(email, style: const TextStyle(fontSize: 14)),
-                                trailing: const Icon(Icons.arrow_forward, size: 16),
-                                onTap: () {
-                                  setState(() {
-                                    _emailController.text = email;
-                                    _showSuggestions = false;
-                                  });
-                                },
-                              );
-                            }).toList(),
+                        Material(
+                          elevation: 8,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            constraints: const BoxConstraints(maxHeight: 250),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: _emailSuggestions.take(8).map((email) {
+                                return ListTile(
+                                  dense: true,
+                                  leading: const Icon(Icons.person, size: 18, color: AppTheme.primario),
+                                  title: Text(
+                                    email,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  trailing: const Icon(Icons.arrow_forward, size: 16),
+                                  onTap: () {
+                                    setState(() {
+                                      _emailController.text = email;
+                                      _showSuggestions = false;
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                     ],
