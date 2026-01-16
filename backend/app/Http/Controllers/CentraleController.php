@@ -147,10 +147,37 @@ class CentraleController extends Controller
                 });
             }
 
+            // Get ALL users (no pagination limit for admin)
             $utenti = $query->with(['wallet', 'esercente', 'rappresentante'])
-                ->paginate($request->get('per_page', 20));
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-            return $this->successResponse($utenti);
+            // Aggiungi campo approvato
+            $utentiData = $utenti->map(function ($user) {
+                $data = [
+                    'id' => $user->id,
+                    'email' => $user->email,
+                    'nome' => $user->nome,
+                    'cognome' => $user->cognome,
+                    'ruolo' => $user->ruolo,
+                    'attivo' => $user->attivo,
+                    'created_at' => $user->created_at,
+                ];
+                
+                // Aggiungi approvato (sempre, per tutti)
+                if ($user->ruolo === 'esercente' && $user->esercente) {
+                    $data['approvato'] = (bool)($user->esercente->approvato ?? false);
+                } else {
+                    $data['approvato'] = true; // Non-esercenti sempre approvati
+                }
+                
+                return $data;
+            });
+
+            return $this->successResponse([
+                'data' => $utentiData,
+                'total' => $utenti->count(),
+            ]);
 
         } catch (\Exception $e) {
             return $this->errorResponse(

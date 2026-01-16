@@ -36,12 +36,28 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
       final response = await _apiService.get(endpoint);
       if (response['success'] == true) {
         setState(() {
-          _utenti = response['data']['data'] ?? [];
+          // Handle new response format
+          final data = response['data'];
+          if (data is Map && data['data'] is List) {
+            _utenti = List<Map<String, dynamic>>.from(data['data']);
+          } else if (data is List) {
+            _utenti = List<Map<String, dynamic>>.from(data);
+          } else {
+            _utenti = [];
+          }
         });
       }
     } catch (e) {
+      if (!mounted) return;
+      
+      // Better error message
+      String errorMsg = e.toString().replaceAll('Exception: ', '');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
+        SnackBar(
+          content: Text('Errore: $errorMsg'),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 5),
+        ),
       );
     } finally {
       if (mounted) {
@@ -213,8 +229,8 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
                           isThreeLine: true,
                           trailing: PopupMenuButton(
                             itemBuilder: (context) => [
-                              // Approvazione (solo esercenti)
-                              if (utente['ruolo'] == 'esercente' && utente['approvato'] == false)
+                              // Approvazione (solo esercenti non approvati)
+                              if (utente['ruolo'] == 'esercente' && (utente['approvato'] == false || utente['approvato'] == null))
                                 PopupMenuItem(
                                   onTap: () => _approvaEsercente(utente['id']),
                                   child: const Row(

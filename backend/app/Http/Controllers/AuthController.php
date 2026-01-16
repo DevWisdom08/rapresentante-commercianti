@@ -265,19 +265,9 @@ class AuthController extends Controller
             return $this->errorResponse('Account disattivato', 'ACCOUNT_DISABLED', null, 403);
         }
 
-        // Se esercente, verifica approvazione
-        if ($user->ruolo === 'esercente') {
-            $esercente = $user->esercente;
-            if ($esercente && !$esercente->approvato) {
-                return $this->errorResponse(
-                    'Account in attesa di approvazione da parte dell\'amministratore',
-                    'PENDING_APPROVAL',
-                    null,
-                    403
-                );
-            }
-        }
-
+        // MVP: Approvazione opzionale (non blocca login per facilitare test)
+        // TODO Phase 2: Abilitare blocco approvazione quando sistema è validato
+        
         // Aggiorna ultimo accesso
         $user->update(['ultimo_accesso' => now()]);
 

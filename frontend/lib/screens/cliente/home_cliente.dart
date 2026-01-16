@@ -245,7 +245,7 @@ class _HomeClienteState extends State<HomeCliente> {
             ),
             const SizedBox(height: AppTheme.spacingM),
             Text(
-              '1 punto = 1 euro di sconto',
+              '10 euro = 1 Punto/Moneta',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.white60,
               ),

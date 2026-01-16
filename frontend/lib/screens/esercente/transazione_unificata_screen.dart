@@ -125,7 +125,7 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildRiepilogoRow('Totale', '€${riepilogo['totale_acquisto']}'),
-                _buildRiepilogoRow('Sconto', '-€${riepilogo['sconto_applicato']}'),
+                _buildRiepilogoRow('Pagato con P/M', '-€${riepilogo['sconto_applicato']}'),
                 Divider(),
                 _buildRiepilogoRow(
                   'DA PAGARE',
@@ -289,7 +289,7 @@ class _TransazioneUnificataScreenState extends State<TransazioneUnificataScreen>
                         final cat = entry.value;
                         return ListTile(
                           title: Text(cat['nome']),
-                          subtitle: Text('Max sconto: ${cat['sconto_max_percentuale']}%'),
+                          subtitle: Text('Max pagabile con P/M: ${cat['sconto_max_percentuale']}%'),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [

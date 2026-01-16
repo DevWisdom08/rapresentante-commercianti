@@ -58,8 +58,16 @@ class _HomeEsercenteState extends State<HomeEsercente> {
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
+            tooltip: 'Logout',
             onPressed: () async {
-              await context.read<AuthProvider>().logout();
+              try {
+                final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                await authProvider.logout();
+                if (!mounted) return;
+                Navigator.of(context).pushNamedAndRemoveUntil('/login', (route) => false);
+              } catch (e) {
+                print('Logout error: $e');
+              }
             },
           ),
         ],

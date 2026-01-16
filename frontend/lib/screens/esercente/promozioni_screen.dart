@@ -15,7 +15,7 @@ class _PromozioniScreenState extends State<PromozioniScreen> {
 
   final List<Map<String, dynamic>> _promozioni = [
     {
-      'titolo': 'Sconto 20% su tutti i prodotti',
+      'titolo': '20% pagabile con P/M su tutti i prodotti',
       'descrizione': 'Valido fino a fine mese',
       'attivo': true,
     },
@@ -81,14 +81,14 @@ class _PromozioniScreenState extends State<PromozioniScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Doppio sconto per clienti che non hanno mai acquistato prima',
+                    'Doppia percentuale pagabile con P/M per nuovi clienti',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   if (_promoPrimiClientiAttiva) ...[
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Text('Percentuale sconto:'),
+                        const Text('Percentuale pagabile con P/M:'),
                         const Spacer(),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -213,7 +213,7 @@ class _PromozioneDialogState extends State<_PromozioneDialog> {
             controller: _titoloController,
             decoration: const InputDecoration(
               labelText: 'Titolo',
-              hintText: 'Sconto 10%...',
+              hintText: '20% pagabile con P/M...',
             ),
           ),
           const SizedBox(height: AppTheme.spacingM),
