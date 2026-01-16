@@ -300,6 +300,59 @@ class CentraleController extends Controller
     }
 
     /**
+     * Crea nuovo Rappresentante
+     */
+    public function creaRappresentante(Request $request)
+    {
+        $currentUser = $request->user();
+
+        if (!$currentUser->isCentrale()) {
+            return $this->errorResponse('Solo admin', 'ROLE_NOT_ALLOWED', null, 403);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email',
+            'nome' => 'required|string|max:100',
+            'cognome' => 'required|string|max:100',
+            'password' => 'required|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->validationErrorResponse($validator);
+        }
+
+        try {
+            $user = User::create([
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'nome' => $request->nome,
+                'cognome' => $request->cognome,
+                'ruolo' => 'rappresentante',
+                'email_verified_at' => now(),
+                'attivo' => true,
+            ]);
+
+            Rappresentante::create([
+                'user_id' => $user->id,
+                'zona' => 'Da assegnare',
+                'provincia' => '',
+            ]);
+
+            return $this->successResponse([
+                'user' => $user,
+            ], 'Rappresentante creato con successo', 201);
+
+        } catch (\Exception $e) {
+            return $this->errorResponse(
+                'Errore: ' . $e->getMessage(),
+                'CREATE_ERROR',
+                null,
+                500
+            );
+        }
+    }
+
+    /**
      * Ottieni configurazioni sistema
      * 
      * GET /api/v1/centrale/configurazioni
