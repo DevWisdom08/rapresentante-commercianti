@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../../providers/auth_provider.dart';
 import '../../config/theme.dart';
+import '../../config/api_config.dart';
 
 /// Login Screen - Italian Theme
 class LoginScreenItalian extends StatefulWidget {
@@ -19,19 +22,47 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
   bool _isLoading = false;
   List<String> _emailSuggestions = [];
   bool _showSuggestions = false;
+  List<String> _allUserEmails = [];
 
-  final List<String> _commonEmails = [
-    'mario.rossi@test.it',
-    'panificio@test.it',
-    'rappresentante.milano@rapresentante.it',
-    'admin@rapresentante.it',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadAllUserEmails();
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadAllUserEmails() async {
+    try {
+      // Load all user emails from database for autocomplete
+      final response = await http.get(
+        Uri.parse('${ApiConfig.baseUrl.replaceAll('/v1', '')}/v1/centrale/utenti?per_page=1000'),
+      );
+      
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data['success'] == true) {
+          final users = data['data']['data'] as List;
+          setState(() {
+            _allUserEmails = users.map((u) => u['email'] as String).toList();
+          });
+        }
+      }
+    } catch (e) {
+      // Use fallback list if can't load
+      setState(() {
+        _allUserEmails = [
+          'mario.rossi@test.it',
+          'panificio@test.it',
+          'admin@rapresentante.it',
+        ];
+      });
+    }
   }
 
   Future<void> _handleLogin() async {
@@ -141,8 +172,9 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
                         onChanged: (value) {
                           setState(() {
                             if (value.length >= 2) {
-                              _emailSuggestions = _commonEmails
+                              _emailSuggestions = _allUserEmails
                                   .where((email) => email.toLowerCase().contains(value.toLowerCase()))
+                                  .take(10)
                                   .toList();
                               _showSuggestions = _emailSuggestions.isNotEmpty;
                             } else {
@@ -151,9 +183,9 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
                           });
                         },
                         onTap: () {
-                          if (_emailController.text.isEmpty) {
+                          if (_emailController.text.isEmpty && _allUserEmails.isNotEmpty) {
                             setState(() {
-                              _emailSuggestions = _commonEmails;
+                              _emailSuggestions = _allUserEmails.take(10).toList();
                               _showSuggestions = true;
                             });
                           }

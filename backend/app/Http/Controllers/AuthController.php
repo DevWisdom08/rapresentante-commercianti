@@ -146,8 +146,12 @@ class AuthController extends Controller
                 Esercente::create([
                     'user_id' => $user->id,
                     'nome_negozio' => $request->nome . ' ' . $request->cognome,
-                    'categoria' => 'generale',
+                    'categoria' => 'altro',
                     'indirizzo' => 'Da completare',
+                    'citta' => 'Da completare',
+                    'cap' => '00000',
+                    'provincia' => 'XX',
+                    'data_adesione' => now()->toDateString(),
                     'approvato' => false, // Richiede approvazione!
                 ]);
             }
