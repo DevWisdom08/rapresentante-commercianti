@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../config/theme.dart';
 import '../../services/api_service.dart';
 import '../../config/api_config.dart';
+import 'crea_rappresentante_screen.dart';
 
 /// Gestione Utenti (Admin)
 class GestioneUtentiScreen extends StatefulWidget {
@@ -123,6 +124,21 @@ class _GestioneUtentiScreenState extends State<GestioneUtentiScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Gestione Utenti'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            tooltip: 'Crea Rappresentante',
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CreaRappresentanteScreen(),
+                ),
+              );
+              if (result == true) _loadUtenti();
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
