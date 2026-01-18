@@ -107,9 +107,26 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                       Icon(Icons.info_outline, color: AppTheme.info),
                       const SizedBox(width: AppTheme.spacingM),
                       Expanded(
-                        child: Text(
-                          'CashBack: 10€ in contanti = 1 Punto/Moneta',
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'CASHBACK - Come Funziona:',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.primario,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '• Acquisti in contanti: 10€ = 1 Punto/Moneta',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            Text(
+                              '• 1 Punto/Moneta = 1€ pagabile per prodotti',
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                          ],
                         ),
                       ),
                     ],
