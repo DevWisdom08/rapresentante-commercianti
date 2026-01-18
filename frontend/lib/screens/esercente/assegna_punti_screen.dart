@@ -108,7 +108,7 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                       const SizedBox(width: AppTheme.spacingM),
                       Expanded(
                         child: Text(
-                          '1 euro di spesa = 1 punto assegnato',
+                          'CashBack: 10€ in contanti = 1 Punto/Moneta',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
