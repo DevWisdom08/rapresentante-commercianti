@@ -182,8 +182,8 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
                               controller: _euroPerPuntoController,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
-                                labelText: 'CashBack: Euro per 1 Punto/Moneta',
-                                helperText: '10€ spesi in contanti = 1 P/M di CashBack',
+                                labelText: 'Punti/Moneta ottenibili al momento acquisto',
+                                helperText: '1 P/M ogni X euro di acquisti in contanti (default: 10)',
                                 hintText: '10',
                                 prefixIcon: Icon(Icons.euro),
                               ),

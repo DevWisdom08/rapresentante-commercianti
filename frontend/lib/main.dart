@@ -27,28 +27,29 @@ class RapresentanteApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => WalletProvider()),
       ],
-      child: Consumer<AuthProvider>(
-        builder: (context, authProvider, _) {
-          return MaterialApp(
-            title: 'Rapresentante Commercianti',
-            debugShowCheckedModeBanner: false,
-            theme: AppTheme.light,
-      darkTheme: AppTheme.light,
-      themeMode: ThemeMode.light,
-            
-            // Routing basato su stato autenticazione
-            home: _buildHomeScreen(authProvider),
-            
-            routes: {
-              '/login': (context) => const LoginScreenItalian(),
-              '/registrazione': (context) => const RegistrazioneScreen(),
-              '/verifica-otp': (context) => const VerificaOtpScreen(),
-              '/home-cliente': (context) => const WalletItalianTheme(),
-              '/home-esercente': (context) => const HomeEsercente(),
-              '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
-              '/dashboard-centrale': (context) => const DashboardCentrale(),
-            },
-          );
+      child: MaterialApp(
+        title: 'Rapresentante Commercianti',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.light,
+        themeMode: ThemeMode.light,
+        
+        // Routing basato su stato autenticazione
+        home: Consumer<AuthProvider>(
+          builder: (context, authProvider, _) {
+            print('Consumer rebuild - isAuth: ${authProvider.isAuthenticated}, user: ${authProvider.user?.email}');
+            return _buildHomeScreen(authProvider);
+          },
+        ),
+        
+        routes: {
+          '/login': (context) => const LoginScreenItalian(),
+          '/registrazione': (context) => const RegistrazioneScreen(),
+          '/verifica-otp': (context) => const VerificaOtpScreen(),
+          '/home-cliente': (context) => const WalletItalianTheme(),
+          '/home-esercente': (context) => const HomeEsercente(),
+          '/dashboard-rappresentante': (context) => const DashboardRappresentante(),
+          '/dashboard-centrale': (context) => const DashboardCentrale(),
         },
       ),
     );

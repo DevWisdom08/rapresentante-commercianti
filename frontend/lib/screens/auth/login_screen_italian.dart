@@ -84,20 +84,29 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
 
     try {
       final email = _emailController.text.trim();
+      print('Login attempt: $email');
+      
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.login(
         email: email,
         password: _passwordController.text,
       );
       
+      print('Login successful! User: ${authProvider.user?.nome}');
+      
       // Save successful login email for future autocomplete
       await _saveRecentEmail(email);
+      
+      // Login successful - main.dart will handle routing automatically
+      
     } catch (e) {
+      print('Login error: $e');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(e.toString().replaceAll('Exception: ', '')),
           backgroundColor: AppTheme.errore,
+          duration: const Duration(seconds: 4),
         ),
       );
     } finally {
