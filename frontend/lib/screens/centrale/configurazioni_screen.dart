@@ -184,7 +184,7 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
                               decoration: const InputDecoration(
                                 labelText: 'CashBack: Euro per 1 Punto/Moneta',
                                 helperText: '10€ spesi in contanti = 1 P/M di CashBack',
-                                helperText: 'Quanti euro di spesa generano 1 punto (default: 10)',
+                                hintText: '10',
                                 prefixIcon: Icon(Icons.euro),
                               ),
                               validator: (v) {

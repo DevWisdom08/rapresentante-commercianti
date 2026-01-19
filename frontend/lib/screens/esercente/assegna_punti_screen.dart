@@ -119,7 +119,7 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '• Acquisti in contanti: 10€ = 1 Punto/Moneta',
+                              '• Acquisti in contanti: 10€ = 1 Punto/Moneta CashBack',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                             Text(

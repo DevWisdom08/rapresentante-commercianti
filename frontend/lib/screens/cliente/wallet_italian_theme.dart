@@ -164,7 +164,7 @@ class _WalletItalianThemeState extends State<WalletItalianTheme> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: const Text(
-                      '10€ = 1 Punto/Moneta',
+                      '10€ = 1 Punto/Moneta CashBack',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

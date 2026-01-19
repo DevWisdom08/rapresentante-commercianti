@@ -6,13 +6,13 @@ class ApiConfig {
   // IMPORTANTE: Auto-detect platform
   // ==========================================
   
-  /// Base URL backend API - PRODUCTION
-  static String get baseUrl => 'http://146.190.50.136/api/v1';
+  /// Base URL backend API - LOCAL TESTING
+  static String get baseUrl => kIsWeb 
+      ? 'http://localhost:8000/api/v1'
+      : 'http://10.0.2.2:8000/api/v1';
   
-  // LOCAL DEV (comment out for production):
-  // static String get baseUrl => kIsWeb 
-  //     ? 'http://localhost:8000/api/v1'
-  //     : 'http://10.0.2.2:8000/api/v1';
+  // PRODUCTION (uncomment for final build):
+  // static String get baseUrl => 'http://146.190.50.136/api/v1';
 
   /// Timeout richieste HTTP (secondi)
   static const int timeout = 30;
