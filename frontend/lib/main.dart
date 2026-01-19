@@ -57,7 +57,10 @@ class RapresentanteApp extends StatelessWidget {
 
   /// Determina schermata iniziale basata su stato autenticazione
   Widget _buildHomeScreen(AuthProvider authProvider) {
+    print('_buildHomeScreen called - isLoading: ${authProvider.isLoading}, isAuth: ${authProvider.isAuthenticated}, role: ${authProvider.user?.ruolo}');
+    
     if (authProvider.isLoading) {
+      print('Showing loading screen');
       return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
@@ -66,20 +69,30 @@ class RapresentanteApp extends StatelessWidget {
     }
 
     if (!authProvider.isAuthenticated) {
-        return const LoginScreenItalian();
+      print('Not authenticated - showing login');
+      return const LoginScreenItalian();
     }
 
     // Routing basato su ruolo utente
-    switch (authProvider.user?.ruolo) {
+    final ruolo = authProvider.user?.ruolo;
+    print('Authenticated with role: $ruolo');
+    
+    switch (ruolo) {
       case 'cliente':
+        print('Routing to WalletItalianTheme');
         return const WalletItalianTheme();
       case 'esercente':
+        print('Routing to HomeEsercente');
         return const HomeEsercente();
       case 'rappresentante':
+        print('Routing to DashboardRappresentante');
         return const DashboardRappresentante();
       case 'centrale':
+      case 'admin':
+        print('Routing to DashboardCentrale');
         return const DashboardCentrale();
       default:
+        print('Unknown role: $ruolo - showing login');
         return const LoginScreenItalian();
     }
   }

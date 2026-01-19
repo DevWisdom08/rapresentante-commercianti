@@ -97,7 +97,18 @@ class _LoginScreenItalianState extends State<LoginScreenItalian> {
       // Save successful login email for future autocomplete
       await _saveRecentEmail(email);
       
-      // Login successful - main.dart will handle routing automatically
+      if (!mounted) return;
+      
+      // Navigate to appropriate dashboard based on role
+      final user = authProvider.user;
+      if (user != null) {
+        String route = '/home-cliente';
+        if (user.ruolo == 'esercente') route = '/home-esercente';
+        if (user.ruolo == 'rappresentante') route = '/dashboard-rappresentante';
+        if (user.ruolo == 'centrale' || user.ruolo == 'admin') route = '/dashboard-centrale';
+        
+        Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
+      }
       
     } catch (e) {
       print('Login error: $e');

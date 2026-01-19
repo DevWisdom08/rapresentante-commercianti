@@ -110,6 +110,7 @@ class AuthProvider with ChangeNotifier {
   }) async {
     _error = null;
     _isLoading = true;
+    print('AuthProvider: Starting login, notifying (isLoading=true)');
     notifyListeners();
 
     try {
@@ -120,11 +121,14 @@ class AuthProvider with ChangeNotifier {
 
       _user = result['user'];
       _error = null;
+      print('AuthProvider: Login success, user=${_user?.email}, role=${_user?.ruolo}');
     } catch (e) {
       _error = _extractErrorMessage(e);
+      print('AuthProvider: Login error: $_error');
       rethrow;
     } finally {
       _isLoading = false;
+      print('AuthProvider: Finished login, notifying (isLoading=false, isAuth=$isAuthenticated)');
       notifyListeners();
     }
   }
