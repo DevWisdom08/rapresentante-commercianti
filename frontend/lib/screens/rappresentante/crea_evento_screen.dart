@@ -155,7 +155,10 @@ class _CreaEventoScreenState extends State<CreaEventoScreen> {
                 controller: _bonusPuntiController,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  labelText: 'Bonus Punti',
+                  labelText: 'Bonus Punti/Moneta',
+                  hintText: '5',
+                  helperText: 'Assegnati SUBITO alla registrazione evento',
+                  helperMaxLines: 2,
                   prefixIcon: Icon(Icons.stars),
                 ),
                 validator: (v) {
