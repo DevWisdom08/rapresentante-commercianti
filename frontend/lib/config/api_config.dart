@@ -6,8 +6,8 @@ class ApiConfig {
   // IMPORTANTE: Auto-detect platform
   // ==========================================
   
-  /// Base URL backend API - PRODUCTION
-  static String get baseUrl => 'http://146.190.50.136/api/v1';
+  /// Base URL backend API - PRODUCTION with Domain
+  static String get baseUrl => 'https://costories.it/api/v1';
   
   // LOCAL DEV (comment out for production):
   // static String get baseUrl => kIsWeb 
