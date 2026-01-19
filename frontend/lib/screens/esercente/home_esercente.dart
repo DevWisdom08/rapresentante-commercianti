@@ -202,6 +202,25 @@ class _HomeEsercenteState extends State<HomeEsercente> {
                     ),
                     const SizedBox(height: AppTheme.spacingM),
                     
+                    // Percentuali Categorie  
+                    Card(
+                      child: ListTile(
+                        leading: const Icon(Icons.settings, color: AppTheme.secondario),
+                        title: const Text('Percentuali per Categoria'),
+                        subtitle: const Text('Imposta % pagabile con P/M'),
+                        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ImpostazioniCategorieScreen(),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spacingM),
+
                     // Promozioni
                     Card(
                       child: ListTile(
