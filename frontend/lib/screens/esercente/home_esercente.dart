@@ -8,6 +8,7 @@ import 'assegna_punti_screen.dart';
 import 'accetta_punti_screen.dart';
 import 'promozioni_screen.dart';
 import 'transazione_unificata_screen.dart';
+import 'impostazioni_categorie_screen.dart';
 
 /// Home Esercente
 class HomeEsercente extends StatefulWidget {
