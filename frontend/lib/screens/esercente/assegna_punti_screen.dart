@@ -143,17 +143,24 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                       controller: _emailClienteController,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
-                      decoration: const InputDecoration(
-                        labelText: 'Email Cliente',
-                        hintText: 'mario.rossi@test.it',
-                        prefixIcon: Icon(Icons.person),
+                      decoration: InputDecoration(
+                        labelText: 'Nome Cliente',
+                        hintText: 'mario',
+                        prefixIcon: const Icon(Icons.person),
+                        suffixText: _emailClienteController.text.contains('@') ? '' : '@sottocasa.it',
+                        helperText: 'Solo nome (es: mario) oppure email completa',
                       ),
+                      onChanged: (v) => setState(() {}),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Inserisci email del cliente';
+                          return 'Inserisci nome o email';
                         }
+                        // Auto-completa dominio
                         if (!value.contains('@')) {
-                          return 'Email non valida';
+                          _emailClienteController.text = '$value@sottocasa.it';
+                          _emailClienteController.selection = TextSelection.fromPosition(
+                            TextPosition(offset: _emailClienteController.text.length),
+                          );
                         }
                         return null;
                       },
