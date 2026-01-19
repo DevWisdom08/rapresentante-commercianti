@@ -162,19 +162,19 @@ class _RegistrazioneScreenState extends State<RegistrazioneScreen> {
             ),
             actions: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pop(context); // Close dialog
                   
-                  // Navigate to appropriate dashboard based on role
-                  final user = authProvider.user;
-                  if (user != null) {
-                    String route = '/home-cliente';
-                    if (user.ruolo == 'esercente') route = '/home-esercente';
-                    if (user.ruolo == 'rappresentante') route = '/dashboard-rappresentante';
-                    if (user.ruolo == 'centrale') route = '/dashboard-centrale';
-                    
-                    Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
-                  }
+                  // Small delay to ensure dialog closes
+                  await Future.delayed(const Duration(milliseconds: 100));
+                  
+                  if (!mounted) return;
+                  
+                  // Navigate to login and let main.dart handle routing
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/login',
+                    (route) => false,
+                  );
                 },
                 child: const Text('INIZIA'),
               ),
