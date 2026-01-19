@@ -166,30 +166,16 @@ class _ConfigurazioniScreenState extends State<ConfigurazioniScreen> {
                               controller: _limitePuntiController,
                               keyboardType: TextInputType.number,
                               decoration: const InputDecoration(
-                                labelText: 'Limite Max Punti per Transazione',
-                                helperText: 'Massimo punti spendibili in una volta',
-                                prefixIcon: Icon(Icons.trending_up),
-                              ),
-                              validator: (v) {
-                                if (v == null || v.isEmpty) return 'Richiesto';
-                                if (double.tryParse(v) == null) return 'Numero non valido';
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: AppTheme.spacingM),
-
-                            TextFormField(
-                              controller: _euroPerPuntoController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                labelText: 'Punti/Moneta ottenibili al momento acquisto',
-                                helperText: '1 P/M ogni X euro di acquisti in contanti (default: 10)',
+                                labelText: 'Percentuale fissa di CashBack su ogni acquisto',
                                 hintText: '10',
-                                prefixIcon: Icon(Icons.euro),
+                                suffixText: '%',
+                                helperText: '10% = per ogni 10€ in contanti, 1 P/M CashBack',
+                                prefixIcon: Icon(Icons.percent),
                               ),
                               validator: (v) {
                                 if (v == null || v.isEmpty) return 'Richiesto';
-                                if (double.tryParse(v) == null) return 'Numero non valido';
+                                final num = int.tryParse(v);
+                                if (num == null || num < 0 || num > 100) return '0-100%';
                                 return null;
                               },
                             ),

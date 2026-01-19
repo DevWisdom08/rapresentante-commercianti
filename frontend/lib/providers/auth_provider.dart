@@ -136,11 +136,12 @@ class AuthProvider with ChangeNotifier {
 
     try {
       await _authService.logout();
-      _user = null;
-      _error = null;
     } catch (e) {
       // Ignora errori logout
     } finally {
+      // SEMPRE pulisci stato locale
+      _user = null;
+      _error = null;
       _isLoading = false;
       notifyListeners();
     }

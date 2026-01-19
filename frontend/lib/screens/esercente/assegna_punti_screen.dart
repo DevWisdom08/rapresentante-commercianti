@@ -111,7 +111,7 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'CASHBACK - Come Funziona:',
+                              'CASHBACK dei P/M come funziona',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: AppTheme.primario,
@@ -119,11 +119,18 @@ class _AssegnaPuntiScreenState extends State<AssegnaPuntiScreen> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '• Acquisti in contanti: 10€ = 1 Punto/Moneta CashBack',
+                              'Acquisti in contanti: 10€ = 1 Punto/Moneta (P/M)',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
+                            const SizedBox(height: 2),
                             Text(
-                              '• 1 Punto/Moneta = 1€ pagabile per prodotti',
+                              'Utilizzo P/M',
+                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              '1 P/M = 1€ per quote di prodotti pagabili in P/M',
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],

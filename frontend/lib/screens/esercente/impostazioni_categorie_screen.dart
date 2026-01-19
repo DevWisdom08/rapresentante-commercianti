@@ -26,13 +26,14 @@ class _ImpostazioniCategorieScreenState extends State<ImpostazioniCategorieScree
       builder: (context) {
         final controller = TextEditingController(text: '$currentValue');
         return AlertDialog(
-          title: Text('Sconto: $categoria'),
+          title: Text('CashBack in P/M: $categoria'),
           content: TextField(
             controller: controller,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              labelText: 'Sconto massimo (%)',
+              labelText: 'CashBack massimo in P/M (%)',
               suffixText: '%',
+              helperText: '% pagabile con P/M',
             ),
           ),
           actions: [
