@@ -7,12 +7,12 @@ class ApiConfig {
   // ==========================================
   
   /// Base URL backend API - LOCAL TESTING
-  static String get baseUrl => kIsWeb 
-      ? 'http://localhost:8000/api/v1'
-      : 'http://10.0.2.2:8000/api/v1';
+  // static String get baseUrl => kIsWeb 
+  //     ? 'http://localhost:8000/api/v1'
+  //     : 'http://10.0.2.2:8000/api/v1';
   
   // PRODUCTION (switch before building final APK):
-  // static String get baseUrl => 'https://costories.it/api/v1';
+  static String get baseUrl => 'https://co-money.it/api/v1';
 
   /// Timeout richieste HTTP (secondi)
   static const int timeout = 30;
